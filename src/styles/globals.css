@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #0066cc;
+    --color-primary-dark: #0052a3;
+    --color-primary-light: #e6f0ff;
+    --color-accent: #00a86b;
+    --color-accent-light: #e6f9f0;
+    --color-secondary: #8b6f47;
+    --color-secondary-light: #f5f0e8;
+    
+    --color-background: #ffffff;
+    --color-foreground: #1a1a1a;
+    --color-text-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-success: #10b981;
+    --color-error: #ef4444;
+    --color-warning: #f59e0b;
+    
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+  }
+}
+
+@layer components {
+  .container--main {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn--primary {
+    @apply px-4 py-2 bg-[var(--color-primary)] text-white rounded-[var(--radius-md)] font-medium hover:bg-[var(--color-primary-dark)] transition-colors;
+  }
+
+  .btn--secondary {
+    @apply px-4 py-2 bg-[var(--color-secondary-light)] text-[var(--color-secondary)] rounded-[var(--radius-md)] font-medium hover:bg-[var(--color-border)] transition-colors;
+  }
+
+  .card {
+    @apply bg-white rounded-[var(--radius-lg)] border border-[var(--color-border)] shadow-sm hover:shadow-md transition-shadow p-6;
+  }
+
+  .badge {
+    @apply inline-block px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .badge--primary {
+    @apply bg-[var(--color-primary-light)] text-[var(--color-primary)];
+  }
+
+  .badge--accent {
+    @apply bg-[var(--color-accent-light)] text-[var(--color-accent)];
+  }
+
+  .input--text {
+    @apply w-full px-4 py-2 border border-[var(--color-border)] rounded-[var(--radius-md)] focus:outline-none focus:border-[var(--color-primary)] transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+* {
+  @apply box-border;
+}
+
+html {
+  @apply bg-[var(--color-background)] text-[var(--color-foreground)];
+}
+
+body {
+  @apply font-sans leading-relaxed;
+}
+
+#app {
+  @apply w-full min-h-screen;
+}

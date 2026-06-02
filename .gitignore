@@ -1,0 +1,42 @@
+# Prerequisites / Dependencies
+node_modules/
+/.pnpm-store/
+
+# Production Build Artifacts
+dist/
+dist-ssr/
+*.local
+
+# Log Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local Environment Variables (Keeps secrets safe)
+.env.local
+.env.*.local
+
+# Allow committing example configurations
+!.env.example
+
+# Editor-Specific Directories
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Testing Framework Outputs
+/cypress/videos/
+/cypress/screenshots/
+/.nyc_output/
+/coverage/
+
+# System Files
+.DS_Store
+Thumbs.db
