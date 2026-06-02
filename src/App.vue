@@ -1,7 +1,6 @@
 <template>
-  <div class="app">
+  <div class="app fade-in">
     <Header />
-    <Navigation />
     <main class="main-content">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
@@ -14,9 +13,16 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { useThemeStore } from '@/stores/theme'
 import Header from './components/Header.vue'
-import Navigation from './components/Navigation.vue'
 import Footer from './components/Footer.vue'
+
+const themeStore = useThemeStore()
+
+onMounted(() => {
+  themeStore.initTheme()
+})
 </script>
 
 <style scoped>
@@ -41,3 +47,4 @@ import Footer from './components/Footer.vue'
   opacity: 0;
 }
 </style>
+

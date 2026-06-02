@@ -37,16 +37,22 @@ defineEmits<{
   flex: 1;
   padding: 0.75rem 1rem;
   border: 1px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   border-radius: var(--radius-md);
   font-size: 1rem;
   font-family: inherit;
-  transition: border-color 0.3s ease;
+  transition: all var(--transition-base);
+}
+
+.search-bar__input::placeholder {
+  color: var(--color-text-muted);
 }
 
 .search-bar__input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary), 0.1);
 }
 
 .search-bar__button {
@@ -57,11 +63,13 @@ defineEmits<{
   border-radius: var(--radius-md);
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all var(--transition-base);
 }
 
 .search-bar__button:hover {
   background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 640px) {

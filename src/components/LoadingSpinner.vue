@@ -19,6 +19,7 @@ defineProps<{
   justify-content: center;
   gap: 1rem;
   padding: 3rem 1rem;
+  animation: fadeIn var(--transition-base);
 }
 
 .spinner {
@@ -39,6 +40,15 @@ defineProps<{
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 </style>

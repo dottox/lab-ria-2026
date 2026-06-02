@@ -23,23 +23,23 @@ defineProps<{
 
 <style scoped>
 .card {
-  background: white;
+  background: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  transition: all var(--transition-base);
   overflow: hidden;
 }
 
 .card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
 
 .card__header {
   padding: 1rem;
   border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-secondary-light);
+  background-color: var(--color-surface);
 }
 
 .card__body {
@@ -63,7 +63,7 @@ defineProps<{
 .card__footer {
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--color-border);
-  background-color: var(--color-secondary-light);
+  background-color: var(--color-surface);
   display: flex;
   gap: 0.75rem;
   justify-content: flex-end;

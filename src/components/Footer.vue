@@ -32,10 +32,12 @@
 
 <style scoped>
 .footer {
-  background-color: var(--color-foreground);
-  color: white;
+  background-color: var(--color-surface);
+  color: var(--color-foreground);
   padding: 3rem 0 1rem;
   margin-top: auto;
+  border-top: 1px solid var(--color-border);
+  transition: background-color var(--transition-slow), border-color var(--transition-slow);
 }
 
 .footer__content {
@@ -55,13 +57,14 @@
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
+  color: var(--color-foreground);
 }
 
 .footer__text {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.5;
-  opacity: 0.85;
+  color: var(--color-text-muted);
 }
 
 .footer__links {
@@ -74,24 +77,23 @@
 }
 
 .footer__links a {
-  color: white;
+  color: var(--color-text-secondary);
   text-decoration: none;
   font-size: 0.95rem;
-  opacity: 0.85;
-  transition: opacity 0.3s ease;
+  transition: all var(--transition-base);
 }
 
 .footer__links a:hover {
-  opacity: 1;
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
 .footer__bottom {
   text-align: center;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--color-border);
   font-size: 0.9rem;
-  opacity: 0.7;
+  color: var(--color-text-muted);
 }
 
 .footer__bottom p {

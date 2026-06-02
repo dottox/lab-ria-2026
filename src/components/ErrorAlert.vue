@@ -42,10 +42,13 @@ const dismiss = () => {
   align-items: flex-start;
   gap: 1rem;
   padding: 1rem;
-  background-color: #fee;
-  border: 1px solid #fcc;
+  background-color: var(--color-error);
+  background-color: rgba(var(--color-error), 0.1);
+  border: 1px solid var(--color-error);
   border-radius: var(--radius-md);
   color: var(--color-error);
+  animation: slideDown var(--transition-slow);
+  transition: all var(--transition-base);
 }
 
 .error-alert__icon {
@@ -63,12 +66,15 @@ const dismiss = () => {
   margin: 0 0 0.25rem 0;
   font-size: 1rem;
   font-weight: 600;
+  color: var(--color-error);
 }
 
 .error-alert__message {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.5;
+  color: var(--color-error);
+  opacity: 0.9;
 }
 
 .error-alert__close {
@@ -81,10 +87,21 @@ const dismiss = () => {
   padding: 0;
   color: var(--color-error);
   opacity: 0.7;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition-base);
 }
 
 .error-alert__close:hover {
   opacity: 1;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
