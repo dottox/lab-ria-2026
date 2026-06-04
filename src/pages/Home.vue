@@ -141,7 +141,7 @@
   align-items: center;
   text-align: center;
   padding: 2rem;
-  background: white;
+  background: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   text-decoration: none;

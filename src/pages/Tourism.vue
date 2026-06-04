@@ -4,39 +4,58 @@
       <h1 class="page-title">Tourism in Uruguay</h1>
       <p class="page-subtitle">Explore popular destinations and attractions</p>
 
-      <div class="destinations-grid">
-        <div v-for="destination in destinations" :key="destination.id" class="destination-card">
-          <Card :title="destination.name" :description="destination.region">
-            <template #header>
-              <div class="card-header">
-                <div class="icon">{{ destination.icon }}</div>
-                <button
-                  class="fav-btn"
-                  :class="{ 'fav-btn--active': isFavorited(destination.id) }"
-                  @click="toggleFavorite(destination)"
-                >
-                  {{ isFavorited(destination.id) ? '⭐' : '☆' }}
-                </button>
-              </div>
-            </template>
+      <!-- Horizontal on desktop, stacked layout on mobile -->
+      <div class="destinations-list">
+        <div 
+          v-for="destination in destinations" 
+          :key="destination.id" 
+          class="destination-card-wrapper"
+        >
+          <!-- Custom Interactive Card structure based on image_7829e4.png -->
+          <div 
+            class="interactive-card" 
+            :style="{ backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url(${destination.image})` }"
+          >
+            <!-- Favorite button floating over the image wrapper -->
+            <button
+              class="fav-btn"
+              :class="{ 'fav-btn--active': isFavorited(destination.id) }"
+              @click.stop="toggleFavorite(destination)"
+            >
+              {{ isFavorited(destination.id) ? '⭐' : '☆' }}
+            </button>
 
-            <div class="destination-details">
-              <p class="description">{{ destination.description }}</p>
-              <div class="highlights">
-                <span v-for="highlight in destination.highlights" :key="highlight" class="badge badge--accent">
-                  {{ highlight }}
-                </span>
-              </div>
-              <div class="meta-info">
-                <div class="meta-item">
-                  <strong>Best Time:</strong> {{ destination.bestTime }}
+            <!-- Initial state: Centered 3-letter abbreviation -->
+            <div class="card-abbreviation">
+              {{ destination.code }}
+            </div>
+
+            <!-- Hover State Content: Slides/Reveals up from the bottom -->
+            <div class="card-hover-content">
+              <div class="hover-main-info">
+                <div class="hover-left">
+                  <h3 class="destination-name">{{ destination.name }}</h3>
+                  <p class="destination-region">{{ destination.region }}</p>
                 </div>
-                <div class="meta-item">
-                  <strong>Distance from Montevideo:</strong> {{ destination.distance }}
+                <div class="hover-right">
+                  <p class="destination-desc">{{ destination.description }}</p>
+                </div>
+              </div>
+              
+              <!-- Extended meta info footer inside the hover window -->
+              <div class="hover-footer-info">
+                <div class="highlights">
+                  <span v-for="highlight in destination.highlights" :key="highlight" class="badge">
+                    {{ highlight }}
+                  </span>
+                </div>
+                <div class="meta-metrics">
+                  <span><strong>Best:</strong> {{ destination.bestTime }}</span>
+                  <span><strong>Dist:</strong> {{ destination.distance }}</span>
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </div>
@@ -46,13 +65,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useFavoriteToggle } from '@/composables/useFavoriteToggle'
-import Card from '@/components/Card.vue'
 import type { Favorite } from '@/stores/favorites'
 
 interface Destination {
   id: string
   name: string
   region: string
+  code: string // 3-letter abbreviation required by image_7829e4.png
+  image: string // Dynamic background image
   icon: string
   description: string
   highlights: string[]
@@ -67,64 +87,77 @@ const destinations = ref<Destination[]>([
     id: 'dest-1',
     name: 'Punta del Este',
     region: 'Maldonado Department',
+    code: 'PDE',
+    image: 'https://images.unsplash.com/photo-1590055486950-84c4f93822f3?q=80&w=800&auto=format&fit=crop',
     icon: '🏖️',
-    description: 'A world-famous beach resort known for its luxury amenities, nightlife, and stunning coastal scenery. Perfect for relaxation and water sports.',
+    description: 'A world-famous beach resort known for its luxury amenities, nightlife, and stunning coastal scenery.',
     highlights: ['Casapueblo', 'Marina', 'Shopping'],
-    bestTime: 'December to February',
+    bestTime: 'Dec - Feb',
     distance: '139 km',
   },
   {
     id: 'dest-2',
     name: 'Colonia del Sacramento',
     region: 'Colonia Department',
+    code: 'COL',
+    image: 'https://images.unsplash.com/photo-1569335728635-430c64117b96?q=80&w=800&auto=format&fit=crop',
     icon: '🏛️',
-    description: 'A UNESCO World Heritage site with charming colonial architecture, cobblestone streets, and historical significance dating back centuries.',
+    description: 'A UNESCO World Heritage site with charming historic colonial architecture and cobblestone streets.',
     highlights: ['Historic Town', 'River Views', 'Museums'],
-    bestTime: 'March to May',
+    bestTime: 'Mar - May',
     distance: '177 km',
   },
   {
     id: 'dest-3',
     name: 'Montevideo',
     region: 'Capital',
+    code: 'MVD',
+    image: 'https://images.unsplash.com/photo-1594914104207-6b2a09f87c12?q=80&w=800&auto=format&fit=crop',
     icon: '🏙️',
-    description: 'Uruguay\'s vibrant capital city offering museums, cultural activities, local cuisine, and the iconic Rambla waterfront promenade.',
+    description: 'Uruguay\'s vibrant capital city offering cultural activities and the iconic Rambla waterfront promenade.',
     highlights: ['Rambla', 'Theater', 'Markets'],
     bestTime: 'Year-round',
-    distance: 'N/A',
+    distance: '0 km',
   },
   {
     id: 'dest-4',
     name: 'Rocha Department',
     region: 'Eastern Coast',
+    code: 'RCH',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop',
     icon: '🌊',
-    description: 'A pristine coastal region with beautiful beaches, lagoons, and natural reserves. Perfect for nature lovers and birdwatchers.',
+    description: 'A pristine coastal region with beautiful wild beaches, lagoons, and protected natural reserves.',
     highlights: ['Beaches', 'Wildlife', 'Lagoons'],
-    bestTime: 'September to November',
+    bestTime: 'Sep - Nov',
     distance: '250 km',
   },
   {
     id: 'dest-5',
     name: 'Salto',
     region: 'Northern Uruguay',
+    code: 'STO',
+    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=800&auto=format&fit=crop',
     icon: '💧',
-    description: 'Known for its famous thermal spas and hot springs. A relaxing destination perfect for wellness and natural therapies.',
+    description: 'Known for its famous thermal spas and hot springs. A relaxing destination perfect for wellness.',
     highlights: ['Thermal Spas', 'Hot Springs', 'Nature'],
-    bestTime: 'June to August',
+    bestTime: 'Jun - Aug',
     distance: '496 km',
   },
   {
     id: 'dest-6',
     name: 'Carmelo',
     region: 'West Coast',
+    code: 'CRM',
+    image: 'https://images.unsplash.com/photo-1516594798947-e65505dbb29d?q=80&w=800&auto=format&fit=crop',
     icon: '🍷',
-    description: 'A charming small town famous for wine production, local restaurants, and scenic countryside views along the Río de la Plata.',
+    description: 'A charming small town famous for boutique wine production and rolling countryside views.',
     highlights: ['Wineries', 'Restaurants', 'River'],
-    bestTime: 'April to November',
+    bestTime: 'Apr - Nov',
     distance: '210 km',
   },
 ])
 
+// Keep this around for sync checks or your store mapping logic
 const createFavorite = (destination: Destination): Favorite => ({
   id: destination.id,
   type: 'tourism',
@@ -152,55 +185,129 @@ const createFavorite = (destination: Destination): Favorite => ({
   color: var(--color-text-muted);
 }
 
-.destinations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
-}
-
-.destination-card {
-  display: contents;
-}
-
-.card-header {
+/* Master list container mapping to the horizontal widescreen requirement */
+.destinations-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Structural Container setup */
+.destination-card-wrapper {
+  width: 100%;
+}
+
+/* Main interactive block mimicking image_7829e4.png specifications */
+.interactive-card {
+  position: relative;
+  width: 100%;
+  height: 260px; /* Perfect aspect ratio for horizontal styling */
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
-.icon {
-  font-size: 2rem;
+.interactive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.15);
 }
 
-.fav-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0;
-  transition: transform 0.2s ease;
+/* Initial State: Big 3-Letter center code */
+.card-abbreviation {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 4px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity var(--transition-base), transform var(--transition-base);
 }
 
-.fav-btn:hover {
-  transform: scale(1.2);
+/* Fade away the initials on card hover */
+.interactive-card:hover .card-abbreviation {
+  opacity: 0;
+  transform: scale(0.9);
 }
 
-.fav-btn--active {
-  color: var(--color-accent);
-}
-
-.destination-details {
+/* Hover Window Slide/Reveal Animation Panel */
+.card-hover-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-background);
+  border-top: 1px solid var(--color-border);
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  
+  /* Slide transform states */
+  transform: translateY(101%);
+  transition: transform var(--transition-slow);
 }
 
-.description {
+/* Triggers the slide-up movement */
+.interactive-card:hover .card-hover-content {
+  transform: translateY(0);
+}
+
+/* Split content structure */
+.hover-main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+/* Name (Left Aligned) */
+.hover-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.destination-name {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+.destination-region {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* Description (Right Aligned per diagram blueprint) */
+.hover-right {
+  flex: 1.5;
+  text-align: right;
+}
+
+.destination-desc {
   margin: 0;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--color-foreground);
+}
+
+/* Meta Footer Section */
+.hover-footer-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-light);
 }
 
 .highlights {
@@ -210,42 +317,102 @@ const createFavorite = (destination: Destination): Favorite => ({
 }
 
 .badge {
-  display: inline-block;
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.25rem;
-  font-size: 0.85rem;
-  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.badge--accent {
-  background-color: var(--color-accent-light);
-  color: var(--color-accent);
-}
-
-.meta-info {
+.meta-metrics {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border);
-}
-
-.meta-item {
-  font-size: 0.9rem;
+  gap: 1rem;
+  font-size: 0.85rem;
   color: var(--color-text-muted);
 }
 
-.meta-item strong {
-  color: var(--color-foreground);
+/* Floating Utility Items */
+.fav-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
 }
 
+.fav-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.fav-btn--active {
+  background: white !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Responsive Overrides (Vertical viewports on phones) */
 @media (max-width: 768px) {
   .page-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
-  .destinations-grid {
-    grid-template-columns: 1fr;
+  .destinations-list {
+    gap: 1.5rem;
+  }
+
+  .interactive-card {
+    height: auto;
+    min-height: 360px;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 3.5rem;
+  }
+
+  /* Keep initials legible at top background tier on small screens */
+  .card-abbreviation {
+    font-size: 2.5rem;
+    margin-bottom: auto;
+  }
+
+  /* Force continuous vertical static blocks on mobile instead of tricky overlays */
+  .card-hover-content {
+    position: relative;
+    transform: translateY(0);
+    width: 100%;
+    border-top: 1px solid var(--color-border);
+    padding: 1rem;
+  }
+
+  .hover-main-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hover-right {
+    text-align: left; /* Shift text to left on narrow screens for native fluid scanning */
+  }
+
+  .hover-footer-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .meta-metrics {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 </style>
