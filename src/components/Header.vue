@@ -63,17 +63,30 @@ const toggleMenu = () => {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: linear-gradient(to bottom, var(--color-background), rgba(var(--color-background), 0.95));
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1rem 0;
 }
 
 .header__nav {
-  backdrop-filter: blur(4px);
-  background: linear-gradient(180deg, rgba(var(--color-background), 1) 0%, rgba(var(--color-background), 0.95) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px; /* Adjust as needed */
   padding: 0.5rem 0;
-  transition: all var(--transition-base);
-}
 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  background: linear-gradient(
+    to bottom,
+    var(--color-background) 0%,
+    color-mix(in srgb, var(--color-background) 40%, transparent) 70%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.8) 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.8) 50%, transparent 100%);
+}
 .nav__wrapper {
   display: flex;
   align-items: center;
@@ -145,13 +158,17 @@ const toggleMenu = () => {
   justify-content: center;
 }
 
+
 .nav__link {
+  border-radius: 10px;
+  background-color: color-mix(in srgb, var(--color-primary-light) 20%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   color: var(--color-text-secondary);
   text-decoration: none;
+  margin: 0 0.2rem;
   padding: 0.75rem 0.875rem;
   font-weight: 500;
   font-size: 0.9rem;

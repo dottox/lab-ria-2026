@@ -34,7 +34,6 @@ onMounted(() => {
 
 .main-content {
   flex: 1;
-  padding: 2rem 0;
 }
 
 .fade-enter-active,
