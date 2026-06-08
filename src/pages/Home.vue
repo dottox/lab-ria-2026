@@ -5,7 +5,7 @@
         <h2 class="hero__title">Welcome to Uruguay</h2>
         <p class="hero__subtitle">Discover climate, tourism, transport, events, and statistics about South America's most developed nation</p>
         <div class="hero__cta">
-          <router-link to="/transport" class="btn--primary">Explore Transport</router-link>
+          <router-link to="/events" class="btn--primary">Explore Events</router-link>
           <router-link to="/tourism" class="btn--secondary">Discover Tourism</router-link>
         </div>
       </section>
@@ -13,12 +13,6 @@
       <section class="features">
         <h2 class="features__title">Explore Uruguay</h2>
         <div class="features__grid">
-          <router-link to="/transport" class="feature-card">
-            <div class="feature-card__icon">🚌</div>
-            <h3 class="feature-card__title">Transport</h3>
-            <p class="feature-card__text">Find bus schedules and transport information across Uruguay</p>
-          </router-link>
-
           <router-link to="/tourism" class="feature-card">
             <div class="feature-card__icon">🏖️</div>
             <h3 class="feature-card__title">Tourism</h3>

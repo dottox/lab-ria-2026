@@ -18,10 +18,9 @@
           </button>
           <ul class="nav__menu" :class="{ 'nav__menu--open': isOpen }">
             <li><router-link to="/" class="nav__link" @click="isOpen = false">Home</router-link></li>
-            <li><router-link to="/transport" class="nav__link" @click="isOpen = false">Transport</router-link></li>
+            <li><router-link to="/events" class="nav__link" @click="isOpen = false">Events</router-link></li>
             <li><router-link to="/tourism" class="nav__link" @click="isOpen = false">Tourism</router-link></li>
             <li><router-link to="/climate" class="nav__link" @click="isOpen = false">Climate</router-link></li>
-            <li><router-link to="/events" class="nav__link" @click="isOpen = false">Events</router-link></li>
             <li><router-link to="/statistics" class="nav__link" @click="isOpen = false">Statistics</router-link></li>
             <li><router-link to="/favorites" class="nav__link nav__link--favorites" @click="isOpen = false">
               ⭐ Favorites<span class="nav__badge">{{ favoritesCount }}</span>

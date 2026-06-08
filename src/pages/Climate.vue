@@ -1,8 +1,15 @@
 <template>
   <div class="climate-page">
     <div class="container--main">
-      <h1 class="page-title">Clima en Uruguay</h1>
-      <p class="page-subtitle">Visión General del Clima</p>
+      <section class="climate-hero">
+        <p class="climate-hero__eyebrow">Clima del Uruguay</p>
+        <h1 class="climate-hero__title">Información en tiempo real y de cada temporada</h1>
+        <p class="climate-hero__subtitle">
+          Descubre toda la información sobre el clima del Uruguay, detallando cada temporada, para que puedas prepararte para venir en tu mejor temporada.
+        </p>
+
+
+      </section>
 
       <div class="climate-overview">
         <div class="season-banner">
@@ -118,21 +125,57 @@ const { regions, getWeatherInfo } = useWeather();
 </script>
 
 <style scoped>
+
 .climate-page {
-  padding: 2rem 0;
+  padding: 6.5rem 0 4rem;
 }
 
-.page-title {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
+.climate-hero {
+  margin-bottom: 2rem;
+  padding: 0.5rem 0 1rem;
+}
+
+.climate-hero__eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: var(--color-primary);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
-.page-subtitle {
-  margin: 0 0 2rem 0;
-  font-size: 1rem;
-  color: var(--color-text-muted);
+.climate-hero__title {
+  margin: 0 0 1rem;
+  max-width: 12ch;
+  font-size: clamp(2.3rem, 4vw, 4rem);
+  line-height: 0.96;
+}
+
+.climate-hero__subtitle {
+  margin: 0;
+  max-width: 52rem;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}
+
+.climate-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .climate-overview {
@@ -292,8 +335,16 @@ const { regions, getWeatherInfo } = useWeather();
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .page-title {
-    font-size: 1.5rem;
+  .climate-page {
+    padding-top: 5.5rem;
+  }
+
+  .climate-hero {
+    padding: 0.25rem 0 1rem;
+  }
+
+  .climate-hero__title {
+    max-width: none;
   }
 
   .section-title {
