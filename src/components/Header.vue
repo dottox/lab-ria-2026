@@ -278,10 +278,7 @@ const toggleMenu = () => {
   }
 
   .nav__link--favorites {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin: 0 0.2rem;
   }
 
   .btn--theme {
