@@ -249,7 +249,7 @@ import Card from '@/components/Card.vue'
 }
 
 .stat-section {
-  background: white;
+  background: var(--background);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
