@@ -74,13 +74,15 @@
 import { computed, ref } from 'vue'
 import { useFavoritesStore } from '@/stores/favorites'
 import Card from '@/components/Card.vue'
-import type { Favorite } from '@/stores/favorites'
+import type { FavoriteType } from '@/stores/favorites'
 
 const favoritesStore = useFavoritesStore()
-const activeFilter = ref<'all' | 'transport' | 'tourism' | 'event'>('all')
+type FavoriteFilter = 'all' | FavoriteType
+
+const activeFilter = ref<FavoriteFilter>('all')
 
 const favorites = computed(() => favoritesStore.favorites)
-const types: ('all' | 'transport' | 'tourism' | 'event')[] = ['all', 'transport', 'tourism', 'event']
+const types: FavoriteFilter[] = ['all', 'transport', 'tourism', 'event']
 
 const filteredFavorites = computed(() => {
   if (activeFilter.value === 'all') {
@@ -98,10 +100,10 @@ const getCount = (type: string) => {
 
 const getTypeLabel = (type: string) => {
   const labels: Record<string, string> = {
-    all: 'All',
-    transport: 'Transport',
-    tourism: 'Tourism',
-    event: 'Events',
+    all: 'Todos',
+    transport: 'Transporte',
+    tourism: 'Turismo',
+    event: 'Eventos',
   }
   return labels[type] || type
 }
@@ -118,6 +120,10 @@ const clearAll = () => {
 
 const formatDate = (timestamp: number) => {
   const date = new Date(timestamp)
+  if (Number.isNaN(date.getTime())) {
+    return 'Fecha no disponible'
+  }
+
   return date.toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'short',

@@ -15,7 +15,7 @@
             <button
               class="fav-btn"
               :class="{ 'fav-btn--active': isFavorited(destination.id) }"
-              @click.stop="toggleFavorite(destination)"
+              @click.stop="toggleDestinationFavorite(destination)"
             >
               {{ isFavorited(destination.id) ? '⭐' : '☆' }}
             </button>
@@ -330,6 +330,10 @@ const createFavorite = (destination: Destination): Favorite => ({
   description: destination.region,
   savedAt: Date.now(),
 })
+
+const toggleDestinationFavorite = (destination: Destination) => {
+  toggleFavorite(createFavorite(destination))
+}
 </script>
 
 <style scoped>
