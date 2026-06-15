@@ -69,9 +69,9 @@ export const events: UruguayEvent[] = [
     venueName: 'Rural del Prado',
     address: 'Lucas Obes 1011',
     neighborhood: 'Prado',
-    coordinates: {
-      lat: -34.8576,
-      lng: -56.2038,
+    coordinates: { // -34.858405, -56.217565 | -34.8576, -56.2038
+      lat: -34.858405,
+      lng: -56.217565,
     },
     imageUrl: 'https://images.unsplash.com/photo-1517846693594-1567da72af75?auto=format&fit=crop&w=1200&q=80',
     imageAlt: 'Jinete a caballo en un entorno de fiesta tradicional campera',

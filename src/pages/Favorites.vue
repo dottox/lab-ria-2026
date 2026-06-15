@@ -1,13 +1,13 @@
 <template>
   <div class="favorites-page">
     <div class="container--main">
-      <h1 class="page-title">My Favorites</h1>
-      <p class="page-subtitle">Your saved items and preferences</p>
+      <h1 class="page-title">Mis favoritos</h1>
+      <p class="page-subtitle">Tus items guardados y preferencias</p>
 
       <div v-if="favorites.length === 0" class="empty-state">
         <div class="empty-icon">⭐</div>
-        <h2>No Favorites Yet</h2>
-        <p>Start exploring and add items to your favorites to see them here!</p>
+        <h2>No hay favoritos todavía</h2>
+        <p>Empieza a explorar y añade tus items para que aparezcan aquí!</p>
         <router-link to="/" class="btn--primary">Explore Uruguay</router-link>
       </div>
 
@@ -59,7 +59,7 @@
                   </span>
                 </div>
                 <div class="item-time">
-                  <span class="label">Added:</span> {{ formatDate(item.savedAt) }}
+                  <span class="label">Añadido:</span> {{ formatDate(item.savedAt) }}
                 </div>
               </div>
             </Card>
@@ -111,7 +111,7 @@ const removeFavorite = (id: string) => {
 }
 
 const clearAll = () => {
-  if (confirm('Are you sure you want to clear all favorites?')) {
+  if (confirm('Estás seguro que quieres limpiar todos tus favoritos?')) {
     favoritesStore.clearFavorites()
   }
 }
@@ -130,7 +130,7 @@ const formatDate = (timestamp: number) => {
 
 <style scoped>
 .favorites-page {
-  padding: 2rem 0;
+  padding: 6.5rem 0 4rem;
 }
 
 .page-title {

@@ -189,7 +189,7 @@ import Card from '@/components/Card.vue'
 
 <style scoped>
 .statistics-page {
-  padding: 2rem 0;
+  padding: 6.5rem 0 4rem;
 }
 
 .page-title {

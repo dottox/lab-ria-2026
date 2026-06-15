@@ -2,67 +2,62 @@
   <div class="home-page">
     <div class="container--main">
       <section class="hero">
-        <h2 class="hero__title">Welcome to Uruguay</h2>
-        <p class="hero__subtitle">Discover climate, tourism, transport, events, and statistics about South America's most developed nation</p>
+        <h2 class="hero__title">Bienvenido a Uruguay</h2>
+        <p class="hero__subtitle">Descubre los eventos, turismos, clima y estadísticas sobre el pais más desarrollado de Sudamérica</p>
         <div class="hero__cta">
-          <router-link to="/events" class="btn--primary">Explore Events</router-link>
-          <router-link to="/tourism" class="btn--secondary">Discover Tourism</router-link>
+          <router-link to="/events" class="btn--primary">Explora eventos</router-link>
+          <router-link to="/tourism" class="btn--secondary">Descubre el turismo</router-link>
         </div>
       </section>
 
       <section class="features">
-        <h2 class="features__title">Explore Uruguay</h2>
+        <h2 class="features__title">Explora Uruguay</h2>
         <div class="features__grid">
+          <router-link to="/events" class="feature-card">
+            <div class="feature-card__icon">🎉</div>
+            <h3 class="feature-card__title">Eventos</h3>
+            <p class="feature-card__text">Mantente al tanto de eventos culturales y sociales</p>
+          </router-link>
+
           <router-link to="/tourism" class="feature-card">
             <div class="feature-card__icon">🏖️</div>
-            <h3 class="feature-card__title">Tourism</h3>
-            <p class="feature-card__text">Discover popular destinations and attractions</p>
+            <h3 class="feature-card__title">Turismo</h3>
+            <p class="feature-card__text">Descubre destinos populares</p>
           </router-link>
 
           <router-link to="/climate" class="feature-card">
             <div class="feature-card__icon">🌤️</div>
-            <h3 class="feature-card__title">Climate</h3>
-            <p class="feature-card__text">Learn about Uruguay's temperate climate</p>
+            <h3 class="feature-card__title">Clima</h3>
+            <p class="feature-card__text">Aprende más acerca del clima templado de Uruguay</p>
           </router-link>
-
-          <router-link to="/events" class="feature-card">
-            <div class="feature-card__icon">🎉</div>
-            <h3 class="feature-card__title">Events</h3>
-            <p class="feature-card__text">Stay updated with cultural and seasonal events</p>
-          </router-link>
+          
 
           <router-link to="/statistics" class="feature-card">
             <div class="feature-card__icon">📊</div>
-            <h3 class="feature-card__title">Statistics</h3>
-            <p class="feature-card__text">Explore population, economy, and key data</p>
-          </router-link>
-
-          <router-link to="/favorites" class="feature-card">
-            <div class="feature-card__icon">⭐</div>
-            <h3 class="feature-card__title">Favorites</h3>
-            <p class="feature-card__text">View your saved items and preferences</p>
+            <h3 class="feature-card__title">Estadisticas</h3>
+            <p class="feature-card__text">Investiga datos de la población, economía y más</p>
           </router-link>
         </div>
       </section>
 
       <section class="info-section">
-        <h2 class="info-section__title">About Uruguay</h2>
+        <h2 class="info-section__title">Sobre Uruguay</h2>
         <div class="info-section__content">
           <div class="info-block">
             <h3 class="info-block__title">Capital</h3>
             <p class="info-block__text">Montevideo</p>
           </div>
           <div class="info-block">
-            <h3 class="info-block__title">Population</h3>
-            <p class="info-block__text">~3.5 million</p>
+            <h3 class="info-block__title">Población</h3>
+            <p class="info-block__text">~3.5 millones</p>
           </div>
           <div class="info-block">
-            <h3 class="info-block__title">Currency</h3>
-            <p class="info-block__text">Uruguayan Peso (UYU)</p>
+            <h3 class="info-block__title">Moneda</h3>
+            <p class="info-block__text">Peso Uruguayo (UYU)</p>
           </div>
           <div class="info-block">
-            <h3 class="info-block__title">Official Language</h3>
-            <p class="info-block__text">Spanish</p>
+            <h3 class="info-block__title">Idioma oficial</h3>
+            <p class="info-block__text">Español</p>
           </div>
         </div>
       </section>

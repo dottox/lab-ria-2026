@@ -42,8 +42,8 @@
                   </span>
                 </div>
                 <div class="meta-metrics">
-                  <span><strong>Best:</strong> {{ destination.bestTime }}</span>
-                  <span><strong>Dist:</strong> {{ destination.distance }}</span>
+                  <span><strong>Mejor:</strong> {{ destination.bestTime }}</span>
+                  <span><strong>Distancia:</strong> {{ destination.distance }}</span>
                 </div>
               </div>
             </div>

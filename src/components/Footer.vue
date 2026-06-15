@@ -3,25 +3,25 @@
     <div class="container--main">
       <div class="footer__content">
         <div class="footer__section">
-          <h3 class="footer__heading">About</h3>
-          <p class="footer__text">Learn about Uruguay's climate, tourism, transport, and events through this comprehensive information portal.</p>
+          <h3 class="footer__heading">Sobre</h3>
+          <p class="footer__text">Aprende sobre los eventos, transporte, clima y estadísticas de Uruguay a través de este portal informativo.</p>
         </div>
         <div class="footer__section">
-          <h3 class="footer__heading">Data Source</h3>
-          <p class="footer__text">Transport information powered by UruguayAPI. Other data provided for educational purposes.</p>
+          <h3 class="footer__heading">Fuentes de datos</h3>
+          <p class="footer__text">Información del transporte aportada por IMM MontevideoAPI.</p>
         </div>
         <div class="footer__section">
-          <h3 class="footer__heading">Quick Links</h3>
+          <h3 class="footer__heading">Links</h3>
           <ul class="footer__links">
-            <li><router-link to="/transport">Transport</router-link></li>
-            <li><router-link to="/tourism">Tourism</router-link></li>
-            <li><router-link to="/climate">Climate</router-link></li>
-            <li><router-link to="/events">Events</router-link></li>
+            <li><router-link to="/events">Eventos</router-link></li>
+            <li><router-link to="/tourism">Turismo</router-link></li>
+            <li><router-link to="/climate">Clima</router-link></li>
+            <li><router-link to="/statistics">Estadisticas</router-link></li>
           </ul>
         </div>
       </div>
       <div class="footer__bottom">
-        <p>&copy; 2026 Uruguay Information Portal. All rights reserved.</p>
+        <p>&copy; 2026 Portal de Información Uruguaya. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
