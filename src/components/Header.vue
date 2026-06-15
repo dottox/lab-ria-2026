@@ -221,6 +221,15 @@ const toggleMenu = () => {
 }
 
 @media (max-width: 768px) {
+  .header__nav {
+    height: auto;
+    min-height: 56px;
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
   .nav__toggle {
     display: flex;
   }
@@ -230,9 +239,11 @@ const toggleMenu = () => {
     top: 100%;
     left: 0;
     right: 0;
+    z-index: 110;
     flex-direction: column;
-    background: linear-gradient(180deg, var(--color-background) 0%, rgba(var(--color-background), 0.98) 100%);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     max-height: 0;
     overflow: hidden;
     transition: max-height var(--transition-slow), opacity var(--transition-slow);
@@ -244,6 +255,7 @@ const toggleMenu = () => {
   .nav__menu--open {
     max-height: 500px;
     opacity: 1;
+    margin-top: 0.75rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
@@ -303,4 +315,3 @@ const toggleMenu = () => {
   }
 }
 </style>
-
