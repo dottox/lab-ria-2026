@@ -192,8 +192,8 @@ const toggleMenu = () => {
   margin-left: auto;
   margin-right: 0;
   border-radius: var(--radius-md);
-  border: none;
-  padding: 0.5rem 0.875rem;
+  border-bottom: 2px solid transparent;
+  padding: 0.75rem 0.875rem;
 }
 
 .nav__link--favorites:hover {
