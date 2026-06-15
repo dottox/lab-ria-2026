@@ -1,46 +1,46 @@
 <template>
   <div class="statistics-page">
     <div class="container--main">
-      <h1 class="page-title">Uruguay Statistics</h1>
-      <p class="page-subtitle">Key data and statistics about Uruguay</p>
+      <h1 class="page-title">Estadísticas de Uruguay</h1>
+      <p class="page-subtitle">Datos y estadísticas clave sobre Uruguay</p>
 
       <div class="stats-grid-large">
-        <Card title="Population">
+        <Card title="Población">
           <div class="stat-display">
             <div class="stat-number">3.5M</div>
-            <p class="stat-description">Total population (2024)</p>
+            <p class="stat-description">Población total (2024)</p>
             <div class="stat-detail">
               <strong>Capital:</strong> Montevideo (1.3M)
             </div>
           </div>
         </Card>
 
-        <Card title="Economy">
+        <Card title="Economía">
           <div class="stat-display">
-            <div class="stat-number">GDP: $68B</div>
-            <p class="stat-description">Nominal GDP (2023)</p>
+            <div class="stat-number">PIB: $68B</div>
+            <p class="stat-description">PIB nominal (2023)</p>
             <div class="stat-detail">
-              <strong>Per Capita:</strong> $19,400
+              <strong>Per cápita:</strong> $19,400
             </div>
           </div>
         </Card>
 
-        <Card title="Area">
+        <Card title="Área">
           <div class="stat-display">
             <div class="stat-number">176,220</div>
             <p class="stat-description">km² (68,034 sq mi)</p>
             <div class="stat-detail">
-              <strong>Coastline:</strong> 1,055 km
+              <strong>Costa:</strong> 1,055 km
             </div>
           </div>
         </Card>
 
-        <Card title="Official Language">
+        <Card title="Idioma oficial">
           <div class="stat-display">
-            <div class="stat-number">Spanish</div>
-            <p class="stat-description">Rioplatense Spanish dialect</p>
+            <div class="stat-number">Español</div>
+            <p class="stat-description">Dialecto español rioplatense</p>
             <div class="stat-detail">
-              <strong>Literacy Rate:</strong> 98.1%
+              <strong>Tasa de alfabetización:</strong> 98.1%
             </div>
           </div>
         </Card>
@@ -48,133 +48,133 @@
 
       <div class="sections">
         <section class="stat-section">
-          <h2 class="section-title">Demographics</h2>
+          <h2 class="section-title">Demografía</h2>
           <div class="stat-list">
             <div class="stat-item">
-              <span class="label">Life Expectancy</span>
-              <span class="value">76.5 years</span>
+              <span class="label">Esperanza de vida</span>
+              <span class="value">76.5 años</span>
             </div>
             <div class="stat-item">
-              <span class="label">Median Age</span>
-              <span class="value">34.2 years</span>
+              <span class="label">Edad media</span>
+              <span class="value">34.2 años</span>
             </div>
             <div class="stat-item">
-              <span class="label">Urban Population</span>
+              <span class="label">Población urbana</span>
               <span class="value">95.5%</span>
             </div>
             <div class="stat-item">
-              <span class="label">Population Growth</span>
-              <span class="value">0.25% annually</span>
+              <span class="label">Crecimiento poblacional</span>
+              <span class="value">0.25% anual</span>
             </div>
           </div>
         </section>
 
         <section class="stat-section">
-          <h2 class="section-title">Education</h2>
+          <h2 class="section-title">Educación</h2>
           <div class="stat-list">
             <div class="stat-item">
-              <span class="label">Primary Education Enrollment</span>
+              <span class="label">Inscripción en educación primaria</span>
               <span class="value">99.2%</span>
             </div>
             <div class="stat-item">
-              <span class="label">Secondary Education</span>
+              <span class="label">Educación secundaria</span>
               <span class="value">94.1%</span>
             </div>
             <div class="stat-item">
-              <span class="label">Tertiary Education</span>
+              <span class="label">Educación terciaria</span>
               <span class="value">42.3%</span>
             </div>
             <div class="stat-item">
-              <span class="label">Global Education Index Rank</span>
-              <span class="value">19th worldwide</span>
+              <span class="label">Puesto en el índice global de educación</span>
+              <span class="value">19.º mundial</span>
             </div>
           </div>
         </section>
 
         <section class="stat-section">
-          <h2 class="section-title">Healthcare</h2>
+          <h2 class="section-title">Salud</h2>
           <div class="stat-list">
             <div class="stat-item">
-              <span class="label">Healthcare Expenditure</span>
-              <span class="value">9.2% of GDP</span>
+              <span class="label">Gasto en salud</span>
+              <span class="value">9.2% del PIB</span>
             </div>
             <div class="stat-item">
-              <span class="label">Physicians per 10,000</span>
+              <span class="label">Médicos cada 10,000 habitantes</span>
               <span class="value">42.8</span>
             </div>
             <div class="stat-item">
-              <span class="label">Hospital Beds per 10,000</span>
+              <span class="label">Camas hospitalarias cada 10,000 habitantes</span>
               <span class="value">27.3</span>
             </div>
             <div class="stat-item">
-              <span class="label">Universal Healthcare Coverage</span>
+              <span class="label">Cobertura universal de salud</span>
               <span class="value">100%</span>
             </div>
           </div>
         </section>
 
         <section class="stat-section">
-          <h2 class="section-title">Infrastructure</h2>
+          <h2 class="section-title">Infraestructura</h2>
           <div class="stat-list">
             <div class="stat-item">
-              <span class="label">Paved Roads</span>
+              <span class="label">Rutas pavimentadas</span>
               <span class="value">8,950 km</span>
             </div>
             <div class="stat-item">
-              <span class="label">Internet Penetration</span>
+              <span class="label">Penetración de internet</span>
               <span class="value">88.5%</span>
             </div>
             <div class="stat-item">
-              <span class="label">Mobile Phone Users</span>
-              <span class="value">140% of population</span>
+              <span class="label">Usuarios de telefonía móvil</span>
+              <span class="value">140% de la población</span>
             </div>
             <div class="stat-item">
-              <span class="label">Airport (main)</span>
-              <span class="value">Carrasco Int'l (MVD)</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="stat-section">
-          <h2 class="section-title">Environment</h2>
-          <div class="stat-list">
-            <div class="stat-item">
-              <span class="label">Renewable Energy Usage</span>
-              <span class="value">63% of electricity</span>
-            </div>
-            <div class="stat-item">
-              <span class="label">Deforestation Rate</span>
-              <span class="value">-0.1% (reforestation)</span>
-            </div>
-            <div class="stat-item">
-              <span class="label">Carbon Emissions per Capita</span>
-              <span class="value">1.9 tonnes CO₂</span>
-            </div>
-            <div class="stat-item">
-              <span class="label">Environmental Performance Index</span>
-              <span class="value">27th worldwide</span>
+              <span class="label">Aeropuerto principal</span>
+              <span class="value">Carrasco Internacional (MVD)</span>
             </div>
           </div>
         </section>
 
         <section class="stat-section">
-          <h2 class="section-title">Government & Politics</h2>
+          <h2 class="section-title">Medio ambiente</h2>
           <div class="stat-list">
             <div class="stat-item">
-              <span class="label">Government Type</span>
-              <span class="value">Presidential Republic</span>
+              <span class="label">Uso de energía renovable</span>
+              <span class="value">63% de la electricidad</span>
             </div>
             <div class="stat-item">
-              <span class="label">Independence Date</span>
-              <span class="value">August 25, 1828</span>
+              <span class="label">Tasa de deforestación</span>
+              <span class="value">-0.1% (reforestación)</span>
             </div>
             <div class="stat-item">
-              <span class="label">Democracy Index</span>
-              <span class="value">Full Democracy (9.04/10)</span>
+              <span class="label">Emisiones de carbono per cápita</span>
+              <span class="value">1.9 toneladas de CO₂</span>
             </div>
             <div class="stat-item">
-              <span class="label">Corruption Perception Index</span>
-              <span class="value">23rd least corrupt</span>
+              <span class="label">Índice de desempeño ambiental</span>
+              <span class="value">27.º mundial</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="stat-section">
+          <h2 class="section-title">Gobierno y política</h2>
+          <div class="stat-list">
+            <div class="stat-item">
+              <span class="label">Tipo de gobierno</span>
+              <span class="value">República presidencial</span>
+            </div>
+            <div class="stat-item">
+              <span class="label">Fecha de independencia</span>
+              <span class="value">25 de agosto de 1828</span>
+            </div>
+            <div class="stat-item">
+              <span class="label">Índice de democracia</span>
+              <span class="value">Democracia plena (9.04/10)</span>
+            </div>
+            <div class="stat-item">
+              <span class="label">Índice de percepción de corrupción</span>
+              <span class="value">23.º menos corrupto</span>
             </div>
           </div>
         </section>
