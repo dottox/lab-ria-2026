@@ -29,7 +29,7 @@
             @click="clearAll"
             style="margin-left: auto;"
           >
-            Clear All
+            Borrar todos
           </button>
         </div>
 
@@ -302,19 +302,11 @@ const formatDate = (timestamp: number) => {
   font-weight: 500;
 }
 
-.badge--transport {
+.badge--transport,
+.badge--tourism,
+.badge--event {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
-}
-
-.badge--tourism {
-  background-color: var(--color-accent-light);
-  color: var(--color-accent);
-}
-
-.badge--event {
-  background-color: #fee;
-  color: var(--color-error);
 }
 
 .item-time {
