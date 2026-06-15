@@ -61,12 +61,13 @@ const toggleMenu = () => {
 .header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 2000;
   border: 1rem 0;
 }
 
 .header__nav {
   position: absolute;
+  z-index: inherit;
   top: 0;
   left: 0;
   right: 0;

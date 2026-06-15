@@ -148,6 +148,9 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .event-map {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
   width: 100%;
   min-height: 320px;
   border-radius: var(--radius-lg);
