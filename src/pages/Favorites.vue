@@ -189,7 +189,7 @@ const formatDate = (timestamp: number) => {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background-color: white;
+  background-color: var(--background);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   cursor: pointer;
