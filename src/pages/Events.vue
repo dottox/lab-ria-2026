@@ -3,9 +3,13 @@
     <div class="container--main">
       <section class="events-hero">
         <p class="events-hero__eyebrow">Agenda cultural de Montevideo</p>
-        <h1 class="events-hero__title">Eventos multitudinales para renovar tu proxima salida</h1>
+        <h1 class="events-hero__title">
+          Eventos multitudinales para renovar tu proxima salida
+        </h1>
         <p class="events-hero__subtitle">
-          Explora fiestas, ferias y festivales uruguayos con una experiencia visual, mapa interactivo y una recomendacion de bus directo desde tu ubicacion.
+          Explora fiestas, ferias y festivales uruguayos con una experiencia
+          visual, mapa interactivo y una recomendacion de bus directo desde tu
+          ubicacion.
         </p>
 
         <div class="events-hero__chips">
@@ -26,7 +30,11 @@
             <button
               class="fav-btn spotlight__fav"
               :class="{ 'fav-btn--active': isFavorited(selectedEvent.id) }"
-              :title="isFavorited(selectedEvent.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'"
+              :title="
+                isFavorited(selectedEvent.id)
+                  ? 'Quitar de favoritos'
+                  : 'Guardar en favoritos'
+              "
               @click="toggleEventFavorite(selectedEvent)"
             >
               {{ isFavorited(selectedEvent.id) ? '⭐' : '☆' }}
@@ -35,36 +43,52 @@
 
           <div class="spotlight__content">
             <div class="spotlight__badges">
-              <span class="badge badge--primary">{{ selectedEvent.category }}</span>
-              <span class="badge badge--accent">{{ selectedEvent.seasonLabel }}</span>
+              <span class="badge badge--primary">{{
+                selectedEvent.category
+              }}</span>
+              <span class="badge badge--accent">{{
+                selectedEvent.seasonLabel
+              }}</span>
             </div>
 
             <h2 class="spotlight__title">{{ selectedEvent.name }}</h2>
             <p class="spotlight__lead">{{ selectedEvent.shortDescription }}</p>
-            <p class="spotlight__description">{{ selectedEvent.longDescription }}</p>
+            <p class="spotlight__description">
+              {{ selectedEvent.longDescription }}
+            </p>
 
             <div class="spotlight__facts">
               <article class="fact-card">
                 <span class="fact-card__label">Lugar</span>
-                <strong class="fact-card__value">{{ selectedEvent.venueName }}</strong>
+                <strong class="fact-card__value">{{
+                  selectedEvent.venueName
+                }}</strong>
                 <p class="fact-card__text">{{ selectedEvent.address }}</p>
               </article>
 
               <article class="fact-card">
                 <span class="fact-card__label">Barrio</span>
-                <strong class="fact-card__value">{{ selectedEvent.neighborhood }}</strong>
+                <strong class="fact-card__value">{{
+                  selectedEvent.neighborhood
+                }}</strong>
                 <p class="fact-card__text">Montevideo, Uruguay</p>
               </article>
 
               <article class="fact-card">
                 <span class="fact-card__label">Temporada</span>
-                <strong class="fact-card__value">{{ selectedEvent.seasonLabel }}</strong>
+                <strong class="fact-card__value">{{
+                  selectedEvent.seasonLabel
+                }}</strong>
                 <p class="fact-card__text">Ideal para planificar tu visita</p>
               </article>
             </div>
 
             <div class="spotlight__tags">
-              <span v-for="tag in selectedEvent.tags" :key="tag" class="tag-pill">
+              <span
+                v-for="tag in selectedEvent.tags"
+                :key="tag"
+                class="tag-pill"
+              >
                 {{ tag }}
               </span>
             </div>
@@ -77,7 +101,8 @@
               <div>
                 <h3 class="detail-panel__title">Como llegar en bus</h3>
                 <p class="detail-panel__subtitle">
-                  Consulta la ubicacion del evento y busca la mejor opcion directa cuando quieras comparar recorridos.
+                  Consulta la ubicacion del evento y busca la mejor opcion
+                  directa cuando quieras comparar recorridos.
                 </p>
               </div>
             </div>
@@ -92,7 +117,11 @@
 
             <div class="transport-actions">
               <button class="btn--primary" @click="requestCurrentLocation">
-                {{ locationState === 'requesting' ? 'Ubicando...' : 'Usar mi ubicacion' }}
+                {{
+                  locationState === 'requesting'
+                    ? 'Ubicando...'
+                    : 'Usar mi ubicacion'
+                }}
               </button>
               <button
                 class="btn--secondary"
@@ -104,13 +133,19 @@
               </button>
             </div>
 
-            <div v-if="transportError" class="transport-feedback transport-feedback--error">
+            <div
+              v-if="transportError"
+              class="transport-feedback transport-feedback--error"
+            >
               {{ transportError }}
             </div>
             <div v-else-if="transportLoading" class="transport-feedback">
               Analizando paradas, lineas y proximos buses para este evento...
             </div>
-            <div v-else-if="!transportCredentialsReady" class="transport-feedback">
+            <div
+              v-else-if="!transportCredentialsReady"
+              class="transport-feedback"
+            >
               El buscador de transporte no esta disponible en este momento.
             </div>
             <div v-else-if="!userLocation" class="transport-feedback">
@@ -119,17 +154,28 @@
             <div v-else-if="activeRecommendation" class="transport-results">
               <article class="recommendation recommendation--featured">
                 <div class="recommendation__eyebrow">Mejor opcion directa</div>
-                <h4 class="recommendation__title">Linea {{ activeRecommendation.line }}</h4>
+                <h4 class="recommendation__title">
+                  Linea {{ activeRecommendation.line }}
+                </h4>
                 <p class="recommendation__summary">
-                  Sube en <strong>{{ formatStopName(activeRecommendation.originStop) }}</strong> y baja en
-                  <strong>{{ formatStopName(activeRecommendation.destinationStop) }}</strong>.
+                  Sube en
+                  <strong>{{
+                    formatStopName(activeRecommendation.originStop)
+                  }}</strong>
+                  y baja en
+                  <strong>{{
+                    formatStopName(activeRecommendation.destinationStop)
+                  }}</strong
+                  >.
                 </p>
 
                 <div class="recommendation__metrics">
                   <div class="metric-card">
                     <span class="metric-card__label">Viaje total</span>
                     <strong class="metric-card__value">
-                      {{ formatDistance(getTotalTripMeters(activeRecommendation)) }}
+                      {{
+                        formatDistance(getTotalTripMeters(activeRecommendation))
+                      }}
                     </strong>
                   </div>
                   <div class="metric-card metric-card--narrow">
@@ -141,7 +187,10 @@
                 </div>
               </article>
 
-              <div v-if="alternativeRecommendations.length" class="alternatives">
+              <div
+                v-if="alternativeRecommendations.length"
+                class="alternatives"
+              >
                 <h5 class="alternatives__title">Alternativas cercanas</h5>
                 <div class="alternatives__list">
                   <article
@@ -153,7 +202,8 @@
                       <strong>Linea {{ option.line }}</strong>
                     </div>
                     <p class="alternative-card__text">
-                      {{ formatStopName(option.originStop) }} → {{ formatStopName(option.destinationStop) }}
+                      {{ formatStopName(option.originStop) }} →
+                      {{ formatStopName(option.destinationStop) }}
                     </p>
                     <div class="alternative-card__metrics">
                       <div class="metric-card">
@@ -180,15 +230,22 @@
         </div>
       </section>
 
+      <section v-if="selectedEvent" class="events-comments">
+        <EventComments :event-id="selectedEvent.id" />
+      </section>
+
       <section class="events-section">
         <div class="events-section__header">
           <div>
             <h2 class="events-section__title">Todos los eventos</h2>
             <p class="events-section__subtitle">
-              Selecciona una tarjeta para cambiar el evento destacado, su mapa y la recomendacion de viaje.
+              Selecciona una tarjeta para cambiar el evento destacado, su mapa y
+              la recomendacion de viaje.
             </p>
           </div>
-          <div class="events-section__counter">{{ events.length }} experiencias curadas</div>
+          <div class="events-section__counter">
+            {{ events.length }} experiencias curadas
+          </div>
         </div>
 
         <div class="events-grid">
@@ -207,14 +264,22 @@
             <button
               class="fav-btn event-card__fav"
               :class="{ 'fav-btn--active': isFavorited(event.id) }"
-              :title="isFavorited(event.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'"
+              :title="
+                isFavorited(event.id)
+                  ? 'Quitar de favoritos'
+                  : 'Guardar en favoritos'
+              "
               @click.stop="toggleEventFavorite(event)"
             >
               {{ isFavorited(event.id) ? '⭐' : '☆' }}
             </button>
 
             <div class="event-card__image-shell">
-              <img :src="event.imageUrl" :alt="event.imageAlt" class="event-card__image" />
+              <img
+                :src="event.imageUrl"
+                :alt="event.imageAlt"
+                class="event-card__image"
+              />
             </div>
 
             <div class="event-card__content">
@@ -224,7 +289,9 @@
               </div>
 
               <h3 class="event-card__title">{{ event.name }}</h3>
-              <p class="event-card__description">{{ event.shortDescription }}</p>
+              <p class="event-card__description">
+                {{ event.shortDescription }}
+              </p>
 
               <div class="event-card__place">
                 <strong>{{ event.venueName }}</strong>
@@ -239,43 +306,52 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import EventMap from '@/components/EventMap.vue'
-import { useFavoriteToggle } from '@/composables/useFavoriteToggle'
-import { defaultEventId, events } from '@/data/events'
-import type { EventLocation, UruguayEvent } from '@/data/events'
-import type { Favorite } from '@/stores/favorites'
-import type { BusRecommendation } from '@/services/montevideoTransport'
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import EventMap from '@/components/EventMap.vue';
+import { useFavoriteToggle } from '@/composables/useFavoriteToggle';
+import { defaultEventId, events } from '@/data/events';
+import type { EventLocation, UruguayEvent } from '@/data/events';
+import type { Favorite } from '@/stores/favorites';
+import type { BusRecommendation } from '@/services/montevideoTransport';
 import {
   calculateDistanceMeters,
   findBestDirectBusOptions,
   formatStopName,
   hasTransportCredentials,
-} from '@/services/montevideoTransport'
+} from '@/services/montevideoTransport';
+import EventComments from '@/components/EventComments.vue';
 
-const SESSION_SELECTED_EVENT_KEY = 'events:selected-event'
+const SESSION_SELECTED_EVENT_KEY = 'events:selected-event';
 
-const { toggleFavorite, isFavorited } = useFavoriteToggle()
+const { toggleFavorite, isFavorited } = useFavoriteToggle();
 
-const selectedEventId = ref(defaultEventId)
-const spotlightSection = ref<HTMLElement | null>(null)
-const userLocation = ref<EventLocation | null>(null)
-const locationState = ref<'idle' | 'requesting' | 'granted' | 'denied' | 'unsupported'>('idle')
-const transportLoading = ref(false)
-const transportError = ref<string | null>(null)
-const recommendations = ref<BusRecommendation[]>([])
-const latestRouteRequest = ref(0)
-const transportCredentialsReady = hasTransportCredentials()
+const selectedEventId = ref(defaultEventId);
+const spotlightSection = ref<HTMLElement | null>(null);
+const userLocation = ref<EventLocation | null>(null);
+const locationState = ref<
+  'idle' | 'requesting' | 'granted' | 'denied' | 'unsupported'
+>('idle');
+const transportLoading = ref(false);
+const transportError = ref<string | null>(null);
+const recommendations = ref<BusRecommendation[]>([]);
+const latestRouteRequest = ref(0);
+const transportCredentialsReady = hasTransportCredentials();
 
 const selectedEvent = computed(() => {
-  return events.find((event) => event.id === selectedEventId.value) ?? events[0]
-})
+  return (
+    events.find((event) => event.id === selectedEventId.value) ?? events[0]
+  );
+});
 
-const activeRecommendation = computed(() => recommendations.value[0] ?? null)
-const alternativeRecommendations = computed(() => recommendations.value.slice(1))
+const activeRecommendation = computed(() => recommendations.value[0] ?? null);
+const alternativeRecommendations = computed(() =>
+  recommendations.value.slice(1),
+);
 const canLoadRoute = computed(() => {
-  return Boolean(transportCredentialsReady && userLocation.value && selectedEvent.value)
-})
+  return Boolean(
+    transportCredentialsReady && userLocation.value && selectedEvent.value,
+  );
+});
 
 const createFavorite = (event: UruguayEvent): Favorite => ({
   id: event.id,
@@ -283,35 +359,35 @@ const createFavorite = (event: UruguayEvent): Favorite => ({
   title: event.name,
   description: `${event.venueName} • ${event.neighborhood}`,
   savedAt: Date.now(),
-})
+});
 
 const toggleEventFavorite = (event: UruguayEvent) => {
-  toggleFavorite(createFavorite(event))
-}
+  toggleFavorite(createFavorite(event));
+};
 
 const selectEvent = (eventId: string) => {
-  selectedEventId.value = eventId
-}
+  selectedEventId.value = eventId;
+};
 
 const resetTransportResults = () => {
-  recommendations.value = []
-}
+  recommendations.value = [];
+};
 
 const persistSessionValue = (key: string, value: string) => {
   if (typeof window === 'undefined') {
-    return
+    return;
   }
 
-  sessionStorage.setItem(key, value)
-}
+  sessionStorage.setItem(key, value);
+};
 
 const formatDistance = (meters: number) => {
   if (meters >= 1000) {
-    return `${(meters / 1000).toFixed(1).replace('.', ',')} km`
+    return `${(meters / 1000).toFixed(1).replace('.', ',')} km`;
   }
 
-  return `${Math.round(meters)} m`
-}
+  return `${Math.round(meters)} m`;
+};
 
 const getBusRideMeters = (recommendation: BusRecommendation) => {
   return Math.round(
@@ -319,111 +395,121 @@ const getBusRideMeters = (recommendation: BusRecommendation) => {
       recommendation.originStop.location,
       recommendation.destinationStop.location,
     ),
-  )
-}
+  );
+};
 
 const getTotalTripMeters = (recommendation: BusRecommendation) => {
-  return recommendation.totalWalkMeters + getBusRideMeters(recommendation)
-}
+  return recommendation.totalWalkMeters + getBusRideMeters(recommendation);
+};
 
 const scrollToSpotlight = async () => {
-  await nextTick()
+  await nextTick();
   spotlightSection.value?.scrollIntoView({
     behavior: 'smooth',
     block: 'start',
-  })
-}
+  });
+};
 
 const loadRecommendations = async () => {
-  if (!selectedEvent.value || !userLocation.value || !transportCredentialsReady) {
-    return
+  if (
+    !selectedEvent.value ||
+    !userLocation.value ||
+    !transportCredentialsReady
+  ) {
+    return;
   }
 
-  const requestId = latestRouteRequest.value + 1
-  latestRouteRequest.value = requestId
-  transportLoading.value = true
-  transportError.value = null
+  const requestId = latestRouteRequest.value + 1;
+  latestRouteRequest.value = requestId;
+  transportLoading.value = true;
+  transportError.value = null;
 
   try {
     const result = await findBestDirectBusOptions(
       userLocation.value,
       selectedEvent.value.coordinates,
-    )
+    );
 
     if (requestId !== latestRouteRequest.value) {
-      return
+      return;
     }
 
-    recommendations.value = result
+    recommendations.value = result;
   } catch (error) {
     if (requestId !== latestRouteRequest.value) {
-      return
+      return;
     }
 
-    resetTransportResults()
-    transportError.value = error instanceof Error ? error.message : 'No pudimos calcular un recorrido en este momento.'
+    resetTransportResults();
+    transportError.value =
+      error instanceof Error
+        ? error.message
+        : 'No pudimos calcular un recorrido en este momento.';
   } finally {
     if (requestId === latestRouteRequest.value) {
-      transportLoading.value = false
+      transportLoading.value = false;
     }
   }
-}
+};
 
 const requestCurrentLocation = () => {
   if (!navigator.geolocation) {
-    locationState.value = 'unsupported'
-    transportError.value = 'Tu navegador no ofrece geolocalizacion para calcular el trayecto.'
-    resetTransportResults()
-    return
+    locationState.value = 'unsupported';
+    transportError.value =
+      'Tu navegador no ofrece geolocalizacion para calcular el trayecto.';
+    resetTransportResults();
+    return;
   }
 
-  locationState.value = 'requesting'
-  transportError.value = null
+  locationState.value = 'requesting';
+  transportError.value = null;
 
   navigator.geolocation.getCurrentPosition(
     (position) => {
       userLocation.value = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
-      }
-      locationState.value = 'granted'
-      transportError.value = null
-      resetTransportResults()
+      };
+      locationState.value = 'granted';
+      transportError.value = null;
+      resetTransportResults();
     },
     (error) => {
-      resetTransportResults()
-      transportLoading.value = false
+      resetTransportResults();
+      transportLoading.value = false;
 
       if (error.code === error.PERMISSION_DENIED) {
-        locationState.value = 'denied'
-        transportError.value = 'Necesitamos permiso de ubicacion para sugerir la mejor ruta.'
-        return
+        locationState.value = 'denied';
+        transportError.value =
+          'Necesitamos permiso de ubicacion para sugerir la mejor ruta.';
+        return;
       }
 
-      locationState.value = 'idle'
-      transportError.value = 'No pudimos obtener tu ubicacion. Intenta de nuevo en unos segundos.'
+      locationState.value = 'idle';
+      transportError.value =
+        'No pudimos obtener tu ubicacion. Intenta de nuevo en unos segundos.';
     },
     {
       enableHighAccuracy: true,
       timeout: 10000,
       maximumAge: 300000,
     },
-  )
-}
+  );
+};
 
 watch(selectedEventId, (eventId) => {
-  persistSessionValue(SESSION_SELECTED_EVENT_KEY, eventId)
-  void scrollToSpotlight()
+  persistSessionValue(SESSION_SELECTED_EVENT_KEY, eventId);
+  void scrollToSpotlight();
 
-  resetTransportResults()
-})
+  resetTransportResults();
+});
 
 onMounted(() => {
-  const storedEventId = sessionStorage.getItem(SESSION_SELECTED_EVENT_KEY)
+  const storedEventId = sessionStorage.getItem(SESSION_SELECTED_EVENT_KEY);
   if (storedEventId && events.some((event) => event.id === storedEventId)) {
-    selectedEventId.value = storedEventId
+    selectedEventId.value = storedEventId;
   }
-})
+});
 </script>
 
 <style scoped>
@@ -751,9 +837,8 @@ onMounted(() => {
   padding: 0.9rem 1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: var(--color-background  );
+  background: var(--color-background);
 }
-
 
 .alternative-card__header {
   display: flex;

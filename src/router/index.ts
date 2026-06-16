@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -22,6 +22,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Events.vue'),
   },
   {
+    path: '/events/:id',
+    name: 'EventView',
+    component: () => import('@/pages/EventView.vue'),
+  },
+  {
     path: '/statistics',
     name: 'Statistics',
     component: () => import('@/pages/Statistics.vue'),
@@ -35,11 +40,11 @@ const routes: RouteRecordRaw[] = [
     path: '/:pathMatch(.*)*',
     redirect: '/',
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
+});
 
-export default router
+export default router;
