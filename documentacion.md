@@ -4,18 +4,18 @@ Este documento resume el estado de cumplimiento de los requisitos solicitados pa
 
 ## Resumen general
 
-| Requisito | Estado |
-|---|---|
-| Múltiples vistas utilizando Vue Router | Cumple |
-| Componentes reutilizables | Cumple |
-| Layout responsive | Cumple |
-| Consumo de al menos una API externa | Cumple |
-| Render dinámico de información | Cumple |
-| Formularios interactivos | Parcial |
-| Búsqueda o filtrado dinámico | Cumple |
-| Manejo de estados compartidos | Cumple |
-| Persistencia frontend | Cumple |
-| Arquitectura organizada del proyecto | Cumple |
+| Requisito                              | Estado  |
+| -------------------------------------- | ------- |
+| Múltiples vistas utilizando Vue Router | Cumple  |
+| Componentes reutilizables              | Cumple  |
+| Layout responsive                      | Cumple  |
+| Consumo de al menos una API externa    | Cumple  |
+| Render dinámico de información         | Cumple  |
+| Formularios interactivos               | Cumple  |
+| Búsqueda o filtrado dinámico           | Parcial |
+| Manejo de estados compartidos          | Cumple  |
+| Persistencia frontend                  | Cumple  |
+| Arquitectura organizada del proyecto   | Cumple  |
 
 ## 1. Múltiples vistas utilizando Vue Router
 
@@ -114,34 +114,29 @@ La información se renderiza de forma dinámica con `v-for`, `v-if`, `computed`,
 
 ## 6. Formularios interactivos
 
-**Estado:** Parcial.
+**Estado:** Cumple.
 
-La aplicación tiene controles interactivos, botones, filtros, navegación responsive, favoritos, confirmación de limpieza y geolocalización, pero no se detecta un formulario HTML clásico con `<form>`, campos `<input>`, `v-model` o `@submit`.
+Existe un formulario para agregar comentarios sobre un evento en específico.
 
-**Evidencia de interacción existente:**
-
-- `src/pages/Favorites.vue:15-33`: botones de filtro por tipo y botón para limpiar favoritos.
-- `src/pages/Favorites.vue:115-118`: confirmación con `confirm()` antes de borrar favoritos.
-- `src/pages/Events.vue:93-105`: botones para usar ubicación y buscar mejor opción.
-- `src/pages/Events.vue:372-411`: solicitud de geolocalización del navegador.
-- `src/components/Header.vue:10-18`: botón para abrir/cerrar menú mobile.
-- `src/components/Header.vue:29-37`: botón para alternar tema claro/oscuro.
-
-**Observación:** si el requisito se evalúa de forma estricta, conviene agregar un formulario real, por ejemplo un formulario de contacto, búsqueda o planificación con inputs y submit.
+- `src/components/EventComments` : formulario con input de autor (opcional) y textarea de texto.
+- `src/components/EventComments` : botón de envío deshabilitado si el campo de texto está vacío.
+- `src/composables/useComments.ts` : lógica de alta y persistencia de comentarios en localStorage por evento, con clave comments-{eventId}.
+- `src/pages/Events.vue` : renderiza EventComments pasando el eventId del evento seleccionado, por lo que los comentarios cambian al seleccionar otro evento.
 
 ## 7. Búsqueda o filtrado dinámico
 
 **Estado:** Cumple.
 
-Existe filtrado dinámico por tipo en la página de favoritos.
+La aplicación implementa búsqueda y filtrado dinámico en múltiples páginas.
 
 **Evidencia:**
 
-- `src/pages/Favorites.vue:15-25`: botones de filtro generados con `v-for`.
+- `src/pages/Events.vue`: input de búsqueda que filtra los eventos en tiempo real por nombre, descripción, venue, barrio, categoría y tags.
+- `src/pages/Favorites.vue:15-25`: botones de filtro por tipo generados con `v-for`.
 - `src/pages/Favorites.vue:82-85`: estado reactivo del filtro activo y lista de tipos.
 - `src/pages/Favorites.vue:87-92`: `filteredFavorites` filtra según el tipo seleccionado.
 - `src/pages/Favorites.vue:94-99`: cálculo dinámico de cantidades por tipo.
-- `src/stores/transport.ts`: también contiene filtros de origen y destino con persistencia en `sessionStorage`.
+- `src/stores/transport.ts`: filtros de origen y destino con persistencia en `sessionStorage`.
 
 ## 8. Manejo de estados compartidos
 

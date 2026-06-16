@@ -248,9 +248,42 @@
           </div>
         </div>
 
+        <div class="events-section__search">
+          <div class="search-box">
+            <svg
+              class="search-box__icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            <input
+              v-model="searchQuery"
+              class="search-box__input"
+              type="search"
+              placeholder="Buscar evento..."
+            />
+            <button
+              v-if="searchQuery"
+              class="search-box__clear"
+              @click="searchQuery = ''"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
         <div class="events-grid">
           <article
-            v-for="event in events"
+            v-for="event in filteredEvents"
             :key="event.id"
             class="event-card"
             :class="{ 'event-card--active': event.id === selectedEventId }"
@@ -496,6 +529,23 @@ const requestCurrentLocation = () => {
     },
   );
 };
+
+const searchQuery = ref('');
+
+const filteredEvents = computed(() =>
+  events.filter((e) => {
+    const q = searchQuery.value.toLowerCase();
+    return (
+      e.name.toLowerCase().includes(q) ||
+      e.shortDescription.toLowerCase().includes(q) ||
+      e.venueName.toLowerCase().includes(q) ||
+      e.address.toLowerCase().includes(q) ||
+      e.neighborhood.toLowerCase().includes(q) ||
+      e.category.toLowerCase().includes(q) ||
+      e.tags.some((tag) => tag.toLowerCase().includes(q))
+    );
+  }),
+);
 
 watch(selectedEventId, (eventId) => {
   persistSessionValue(SESSION_SELECTED_EVENT_KEY, eventId);
@@ -869,6 +919,7 @@ onMounted(() => {
   align-items: flex-end;
   gap: 1rem;
   margin-bottom: 1.25rem;
+  margin-top: 1.5rem;
 }
 
 .events-section__title {
@@ -896,6 +947,7 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.25rem;
+  margin-top: 1.5rem;
 }
 
 .event-card {
@@ -1015,6 +1067,73 @@ onMounted(() => {
 .fav-btn--active {
   background: rgba(212, 163, 0, 0.9);
   color: #0f172a;
+}
+
+.events-section__search {
+  margin-bottom: 1.25rem;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 28rem;
+}
+
+.search-box__icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.search-box__input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.search-box__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 80, 179, 0.12);
+}
+
+.search-box__input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-box__clear {
+  position: absolute;
+  right: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition:
+    background var(--transition-base),
+    color var(--transition-base);
+}
+
+.search-box__clear:hover {
+  background: var(--color-border);
+  color: var(--color-foreground);
 }
 
 @media (max-width: 1120px) {
