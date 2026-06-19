@@ -275,6 +275,65 @@ Se agregó una simulación profesional de consumo de API para cotizaciones de mo
 - Build: `npm run build` finaliza correctamente. Solo se mantiene la advertencia ya existente de configuración de módulos en `postcss.config.js`.
 
 
+## 12. Servicio simulado de homicidios/API
+
+**Estado:** Cumple.
+
+Se agregó una simulación de consumo de API para estadísticas de homicidios en Uruguay, sin depender de una API externa real. La implementación mantiene la misma estrategia utilizada para cotizaciones: datos mock separados, servicio simulado, composable reutilizable, manejo de cache y componente visual integrado en la página de estadísticas.
+
+La sección deja explícito que los valores son simulados y no oficiales, evitando presentar datos de prueba como cifras reales.
+
+**Archivos agregados:**
+
+- `src/data/api/homicides.mock.ts`: contiene la respuesta mock del servicio de homicidios.
+- `src/services/homicidesService.ts`: centraliza el acceso a las estadísticas mediante `getHomicidesStats()`.
+- `src/composables/useHomicides.ts`: maneja `loading`, `error`, `data`, `fromCache`, `cachedAt`, cache en `localStorage` y fallback ante error.
+- `src/components/HomicidesStats.vue`: muestra el resumen visual de homicidios, evolución anual, ranking por departamento, fuente, nota metodológica y estado de cache.
+
+**Archivo modificado:**
+
+- `src/pages/Statistics.vue`: integra el componente `<HomicidesStats />` dentro de la página de estadísticas junto con el bloque de cotizaciones.
+
+**Funcionamiento:**
+
+- Los datos simulados se encuentran separados en `src/data/api/homicides.mock.ts`.
+- El servicio `homicidesService.ts` reutiliza `simulateApiCall<T>()` desde `src/services/mockApi.ts`.
+- La llamada simula latencia, respuesta asincrónica y posibles errores controlados.
+- El composable `useHomicides()` guarda la última respuesta válida en `localStorage` con la clave `ria:homicides:mock`.
+- Si la simulación falla y existe cache, se muestran los datos cacheados junto con un mensaje de error.
+- Si la simulación falla y no existe cache, se informa el error al usuario.
+- La sección funciona sin realizar llamadas reales de red, porque los datos se incluyen localmente en el proyecto.
+
+**Datos mostrados:**
+
+- Último año disponible.
+- Total simulado de homicidios del último año.
+- Tasa simulada cada 100.000 habitantes.
+- Variación anual.
+- Evolución anual mediante barras simples.
+- Resumen por departamento.
+- Fuente conceptual.
+- Nota metodológica.
+- Indicador de datos simulados/no oficiales.
+- Estado de cache.
+
+**Evidencia visual y funcional:**
+
+- `src/components/HomicidesStats.vue`: renderiza el bloque de estadísticas de homicidios dentro del dashboard.
+- `src/composables/useHomicides.ts`: implementa carga inicial, actualización manual, cache y fallback.
+- `src/services/homicidesService.ts`: simula la consulta al servicio de homicidios.
+- `src/data/api/homicides.mock.ts`: mantiene los datos de prueba fuera de la página.
+- `src/pages/Statistics.vue`: muestra la sección de homicidios junto a otros indicadores.
+
+**Pruebas realizadas:**
+
+- Flujo normal: se carga la sección de homicidios, aparece el estado de carga inicial y luego se muestran los datos simulados.
+- Actualización manual: el botón `Actualizar` vuelve a ejecutar la simulación.
+- Flujo de error con cache: al forzar error en `homicidesService.ts`, la interfaz muestra el mensaje de error y conserva los datos previamente guardados.
+- Flujo de error sin cache: al eliminar `localStorage.removeItem('ria:homicides:mock')` y forzar error, se muestra el estado de error correspondiente.
+- Build: `npm run build` finaliza correctamente. Solo se mantiene la advertencia ya existente de configuración de módulos en `postcss.config.js`.
+
+
 ## Verificación técnica
 
 Se ejecutó:

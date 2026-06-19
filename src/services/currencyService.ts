@@ -11,6 +11,6 @@ export interface CurrencyResponse extends MockCurrencyResponse {}
 export function getCurrencyRates(): Promise<CurrencyResponse> {
   return simulateApiCall(currencyMockResponse, {
     delayMs: 800,
-    shouldFail: true,
+    shouldFail: false,
   })
 }
