@@ -230,6 +230,51 @@ src/
 - `src/data/`: datos locales estructurados.
 - `src/utils/`: utilidades.
 
+
+## 11. Servicio simulado de cotizaciones/API
+
+**Estado:** Cumple.
+
+Se agregó una simulación profesional de consumo de API para cotizaciones de monedas, sin depender de una API externa real. La implementación separa datos mock, capa de servicio, composable reutilizable y componente visual.
+
+**Archivos agregados:**
+
+- `src/data/api/currency.mock.ts`: contiene la respuesta mock del servicio de cotizaciones.
+- `src/services/mockApi.ts`: expone `simulateApiCall<T>()` para simular delay, error y respuesta asincrónica.
+- `src/services/currencyService.ts`: centraliza el acceso a las cotizaciones mediante `getCurrencyRates()`.
+- `src/composables/useCurrency.ts`: maneja `loading`, `error`, `data`, `fromCache`, `cachedAt`, cache en `localStorage` y fallback ante error.
+- `src/components/CurrencyRates.vue`: muestra cotizaciones, loading, error, botón de actualización, fuente, fecha de actualización y estado de cache.
+
+**Archivo modificado:**
+
+- `src/pages/Statistics.vue`: integra el componente `<CurrencyRates />` dentro de la página de estadísticas.
+
+**Funcionamiento:**
+
+- Los datos de cotizaciones se encuentran separados en `src/data/api/currency.mock.ts`.
+- La llamada se simula con `Promise` y `setTimeout` mediante `simulateApiCall<T>()`.
+- El servicio `currencyService.ts` queda como único punto reemplazable por una API real en el futuro.
+- El composable `useCurrency()` guarda la última respuesta válida en `localStorage` con la clave `ria:currency:mock`.
+- Si la simulación falla y existe cache, se muestran los datos cacheados junto con un mensaje de error.
+- Si la simulación falla y no existe cache, se informa el error al usuario.
+- La sección puede funcionar sin realizar llamadas reales de red, porque los datos se incluyen localmente en el proyecto.
+
+**Evidencia visual y funcional:**
+
+- `src/components/CurrencyRates.vue`: renderiza las monedas USD, EUR, BRL y ARS con compra, venta y variación.
+- `src/composables/useCurrency.ts`: implementa la carga inicial, actualización manual, cache y fallback.
+- `src/services/currencyService.ts`: simula la consulta al servicio de cotizaciones.
+- `src/pages/Statistics.vue`: muestra la sección de cotizaciones dentro del dashboard de estadísticas.
+
+**Pruebas realizadas:**
+
+- Flujo normal: se carga la sección de cotizaciones, aparece el estado de carga inicial y luego se muestran los datos.
+- Actualización manual: el botón `Actualizar` vuelve a ejecutar la simulación.
+- Flujo de error con cache: al forzar error en `currencyService.ts`, la interfaz muestra el mensaje de error y conserva los datos previamente guardados.
+- Flujo de error sin cache: al eliminar `localStorage.removeItem('ria:currency:mock')` y forzar error, se muestra el estado de error correspondiente.
+- Build: `npm run build` finaliza correctamente. Solo se mantiene la advertencia ya existente de configuración de módulos en `postcss.config.js`.
+
+
 ## Verificación técnica
 
 Se ejecutó:

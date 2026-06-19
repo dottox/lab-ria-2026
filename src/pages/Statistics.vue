@@ -46,6 +46,8 @@
         </Card>
       </div>
 
+      <CurrencyRates />
+
       <div class="sections">
         <section class="stat-section">
           <h2 class="section-title">Demografía</h2>
@@ -185,6 +187,7 @@
 
 <script setup lang="ts">
 import Card from '@/components/Card.vue'
+import CurrencyRates from '@/components/CurrencyRates.vue'
 </script>
 
 <style scoped>
