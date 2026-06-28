@@ -43,3 +43,5 @@ Thumbs.db
 .codex/
 .vite/
 .agents/
+
+.env

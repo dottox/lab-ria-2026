@@ -133,6 +133,9 @@
                     : 'Usar mi ubicacion'
                 }}
               </button>
+              <button class="btn--secondary" @click="useMockCentroLocation">
+                Usar Centro demo
+              </button>
               <button
                 class="btn--secondary"
                 :disabled="!canLoadRoute || transportLoading"
@@ -368,6 +371,10 @@ import {
 import EventComments from '@/components/EventComments.vue';
 
 const SESSION_SELECTED_EVENT_KEY = 'events:selected-event';
+const MOCK_CENTRO_LOCATION: EventLocation = {
+  lat: -34.9059,
+  lng: -56.1912,
+};
 
 const { toggleFavorite, isFavorited } = useFavoriteToggle();
 const { isLoading } = useMinimumLoading(460);
@@ -542,6 +549,14 @@ const requestCurrentLocation = () => {
       maximumAge: 300000,
     },
   );
+};
+
+const useMockCentroLocation = () => {
+  userLocation.value = MOCK_CENTRO_LOCATION;
+  locationState.value = 'granted';
+  transportError.value = null;
+  transportLoading.value = false;
+  resetTransportResults();
 };
 
 const searchQuery = ref('');

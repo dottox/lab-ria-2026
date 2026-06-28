@@ -169,7 +169,7 @@ const getFavoriteRoute = (favorite: Favorite) => {
   }
 
   if (favorite.type === 'event') {
-    return `/events/${favorite.id}`
+    return `/events`
   }
 
   if (favorite.type === 'transport') {
