@@ -34,7 +34,13 @@
         </div>
 
         <div class="favorites-grid">
-          <div v-for="item in filteredFavorites" :key="item.id" class="favorite-item">
+          <RouterLink
+            v-for="item in filteredFavorites"
+            :key="item.id"
+            class="favorite-card"
+            :to="getFavoriteRoute(item)"
+            :aria-label="`Abrir ${item.title}`"
+          >
             <Card>
               <template #header>
                 <div class="item-header">
@@ -44,10 +50,12 @@
                   </div>
                   <button
                     class="remove-btn"
-                    @click="removeFavorite(item.id)"
-                    title="Remove from favorites"
+                    type="button"
+                    aria-label="Quitar de favoritos"
+                    title="Quitar de favoritos"
+                    @click.prevent.stop="removeFavorite(item.id)"
                   >
-                    ✕
+                    x
                   </button>
                 </div>
               </template>
@@ -63,7 +71,7 @@
                 </div>
               </div>
             </Card>
-          </div>
+          </RouterLink>
         </div>
       </div>
     </div>
@@ -73,8 +81,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useFavoritesStore } from '@/stores/favorites'
+import { tourismDepartments } from '@/data/tourism'
 import Card from '@/components/Card.vue'
-import type { FavoriteType } from '@/stores/favorites'
+import type { Favorite, FavoriteType } from '@/stores/favorites'
 
 const favoritesStore = useFavoritesStore()
 type FavoriteFilter = 'all' | FavoriteType
@@ -106,6 +115,54 @@ const getTypeLabel = (type: string) => {
     event: 'Eventos',
   }
   return labels[type] || type
+}
+
+const normalizeText = (value: string) => {
+  return value
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
+const toSlug = (value: string) => {
+  return normalizeText(value)
+    .replace(/\u00f1/g, 'n')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+const getTourismSlug = (favorite: Favorite) => {
+  if (favorite.slug) {
+    return favorite.slug
+  }
+
+  const normalizedTitle = normalizeText(favorite.title)
+  const match = tourismDepartments.find(department =>
+    department.id === favorite.id || normalizeText(department.name) === normalizedTitle
+  )
+
+  return match?.slug ?? toSlug(favorite.title)
+}
+
+const getFavoriteRoute = (favorite: Favorite) => {
+  if (favorite.route?.startsWith('/')) {
+    return favorite.route
+  }
+
+  if (favorite.type === 'tourism') {
+    return `/tourism/${getTourismSlug(favorite)}`
+  }
+
+  if (favorite.type === 'event') {
+    return `/events/${favorite.id}`
+  }
+
+  if (favorite.type === 'transport') {
+    return '/events'
+  }
+
+  return '/favorites'
 }
 
 const removeFavorite = (id: string) => {
@@ -237,8 +294,34 @@ const formatDate = (timestamp: number) => {
   gap: 1.5rem;
 }
 
-.favorite-item {
-  display: contents;
+.favorite-card {
+  display: block;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform var(--transition-base),
+    filter var(--transition-base);
+}
+
+.favorite-card:hover {
+  filter: drop-shadow(0 16px 28px rgba(56, 189, 248, 0.12));
+  transform: translateY(-3px);
+}
+
+.favorite-card:focus-visible {
+  border-radius: var(--radius-lg);
+  outline: 2px solid #38bdf8;
+  outline-offset: 4px;
+}
+
+.favorite-card :deep(.card) {
+  height: 100%;
+}
+
+.favorite-card:hover :deep(.card),
+.favorite-card:focus-visible :deep(.card) {
+  border-color: rgba(56, 189, 248, 0.6);
 }
 
 .item-header {

@@ -9,6 +9,8 @@ export interface Favorite {
   title: string
   description: string
   savedAt: number
+  route?: string
+  slug?: string
 }
 
 const favoriteTypes: FavoriteType[] = ['transport', 'tourism', 'event']
@@ -59,17 +61,29 @@ const normalizeFavorite = (item: unknown): Favorite | null => {
 
   const title = getStringField(record, ['title', 'name', 'company', 'line'])
   const description = getStringField(record, ['description', 'region', 'destination'])
+  const route = getStringField(record, ['route'])
+  const slug = getStringField(record, ['slug'])
   const savedAt = typeof record.savedAt === 'number' && Number.isFinite(record.savedAt)
     ? record.savedAt
     : Date.now()
 
-  return {
+  const favorite: Favorite = {
     id,
     type,
     title: title || 'Favorito guardado',
     description,
     savedAt,
   }
+
+  if (route) {
+    favorite.route = route
+  }
+
+  if (slug) {
+    favorite.slug = slug
+  }
+
+  return favorite
 }
 
 export const useFavoritesStore = defineStore('favorites', () => {
