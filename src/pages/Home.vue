@@ -1,6 +1,15 @@
 <template>
   <div class="home-page">
     <div class="container--main">
+      <section v-if="isLoading" class="home-skeleton" aria-busy="true" aria-label="Cargando inicio">
+        <SkeletonHero with-actions />
+        <SkeletonGrid :items="4" :card-lines="2" />
+        <div class="home-skeleton__stats">
+          <SkeletonStat v-for="item in 4" :key="item" />
+        </div>
+      </section>
+
+      <template v-else>
       <section class="hero">
         <h2 class="hero__title">Bienvenido a Uruguay</h2>
         <p class="hero__subtitle">Descubre los eventos, turismos, clima y estadísticas sobre el pais más desarrollado de Sudamérica</p>
@@ -61,16 +70,35 @@
           </div>
         </div>
       </section>
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { SkeletonGrid, SkeletonHero, SkeletonStat } from '@/components/skeleton'
+import { useMinimumLoading } from '@/composables/useMinimumLoading'
+
+const { isLoading } = useMinimumLoading(420)
 </script>
 
 <style scoped>
 .home-page {
   padding: 2rem 0;
+}
+
+.home-skeleton {
+  display: grid;
+  gap: 2rem;
+}
+
+.home-skeleton__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 3rem 2rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-secondary-light);
 }
 
 .hero {

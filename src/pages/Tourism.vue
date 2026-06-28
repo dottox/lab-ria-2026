@@ -1,5 +1,24 @@
 <template>
   <div class="tourism-page">
+    <template v-if="isLoading">
+      <SkeletonHero class="tourism-skeleton-hero" dark />
+      <section
+        class="destinations-bento-grid tourism-skeleton-grid"
+        aria-busy="true"
+        aria-label="Cargando destinos turisticos"
+      >
+        <div
+          v-for="destination in destinations"
+          :key="`skeleton-${destination.id}`"
+          class="destination-card-wrapper"
+          :style="getBentoStyles(destination.grid)"
+        >
+          <SkeletonBase class="tourism-card-skeleton" height="100%" radius="0" variant="image" />
+        </div>
+      </section>
+    </template>
+
+    <template v-else>
     <section class="tourism-hero" aria-labelledby="tourism-title">
       <p class="tourism-kicker">Uruguay por departamento</p>
       <h1 id="tourism-title">Turismo</h1>
@@ -66,15 +85,19 @@
         </div>
       </div>
     </section>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { SkeletonBase, SkeletonHero } from '@/components/skeleton'
 import { tourismDepartments, type TourismDepartment, type TourismGridConfig } from '@/data/tourism'
 import { useFavoriteToggle } from '@/composables/useFavoriteToggle'
+import { useMinimumLoading } from '@/composables/useMinimumLoading'
 import type { Favorite } from '@/stores/favorites'
 
 const { toggleFavorite, isFavorited } = useFavoriteToggle()
+const { isLoading } = useMinimumLoading(460)
 const destinations = tourismDepartments
 
 const getBentoStyles = (grid: TourismGridConfig): Record<string, string> => {
@@ -121,6 +144,19 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   width: min(1120px, 100%);
   margin: 0 auto clamp(1.25rem, 3vw, 2.25rem);
   padding: clamp(1rem, 3vw, 2rem) 0;
+}
+
+.tourism-skeleton-hero {
+  width: min(1120px, 100%);
+  margin: 0 auto clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.tourism-skeleton-grid {
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+}
+
+.tourism-card-skeleton {
+  display: block;
 }
 
 .tourism-kicker {

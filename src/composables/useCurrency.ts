@@ -40,7 +40,7 @@ const writeCurrencyCache = (payload: CurrencyCachePayload) => {
 
 export function useCurrency() {
   const data = ref<CurrencyResponse | null>(null)
-  const loading = ref(false)
+  const loading = ref(true)
   const error = ref<string | null>(null)
   const cachedAt = ref<string | null>(null)
   const fromCache = ref(false)

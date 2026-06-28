@@ -18,7 +18,7 @@
       </button>
     </div>
 
-    <LoadingSpinner v-if="loading && !hasData" message="Cargando cotizaciones..." />
+    <SkeletonGrid v-if="loading && !hasData" :items="4" :card-lines="2" />
 
     <ErrorAlert
       v-if="error"
@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import Card from "@/components/Card.vue";
 import ErrorAlert from "@/components/ErrorAlert.vue";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import { SkeletonGrid } from "@/components/skeleton";
 import { useCurrency } from "@/composables/useCurrency";
 
 const {

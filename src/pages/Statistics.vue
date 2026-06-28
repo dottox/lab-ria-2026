@@ -4,7 +4,9 @@
       <h1 class="page-title">Estadísticas de Uruguay</h1>
       <p class="page-subtitle">Datos y estadísticas clave sobre Uruguay</p>
 
-      <div class="stats-grid-large">
+      <SkeletonGrid v-if="isLoading" class="stats-grid-large" :items="4" :card-lines="2" />
+
+      <div v-else class="stats-grid-large">
         <Card title="Población">
           <div class="stat-display">
             <div class="stat-number">3.5M</div>
@@ -50,7 +52,9 @@
 
       <HomicidesStats />
 
-      <div class="sections">
+      <SkeletonGrid v-if="isLoading" :items="6" :card-lines="4" />
+
+      <div v-else class="sections">
         <section class="stat-section">
           <h2 class="section-title">Demografía</h2>
           <div class="stat-list">
@@ -191,6 +195,10 @@
 import Card from '@/components/Card.vue'
 import CurrencyRates from '@/components/CurrencyRates.vue'
 import HomicidesStats from '@/components/HomicidesStats.vue'
+import { SkeletonGrid } from '@/components/skeleton'
+import { useMinimumLoading } from '@/composables/useMinimumLoading'
+
+const { isLoading } = useMinimumLoading(420)
 </script>
 
 <style scoped>

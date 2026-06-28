@@ -41,7 +41,7 @@ export function useWeather() {
     REGIONS.map((r) => ({
       ...r,
       weather: undefined,
-      loading: false,
+      loading: true,
       error: null,
     })),
   );

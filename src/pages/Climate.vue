@@ -45,7 +45,10 @@
             :title="region.name"
             style="text-align: center"
           >
-            <div v-if="region.loading" class="region-loading">Cargando...</div>
+            <div v-if="region.loading" class="weather-card-skeleton">
+              <SkeletonBase width="4rem" height="2rem" radius="0.5rem" />
+              <SkeletonText :lines="2" line-height="0.75rem" />
+            </div>
             <div v-else-if="region.error" class="region-error">
               ⚠️ Error al cargar
             </div>
@@ -103,6 +106,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Card from '@/components/Card.vue';
+import { SkeletonBase, SkeletonText } from '@/components/skeleton';
 import { getCurrentSeason, getSeasonsInfo } from '../utils/seasons';
 import { useWeather } from '@/composables/useWeather';
 
@@ -331,6 +335,12 @@ const { regions, getWeatherInfo } = useWeather();
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--color-foreground);
+}
+
+.weather-card-skeleton {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
 }
 
 /* ── Responsive ── */

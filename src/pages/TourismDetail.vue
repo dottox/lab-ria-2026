@@ -1,22 +1,26 @@
 <template>
   <div class="tourism-detail-page">
     <section v-if="isLoading" class="tourism-detail-skeleton" aria-busy="true" aria-label="Cargando turismo">
-      <div class="skeleton skeleton-hero"></div>
-      <div class="skeleton-shell">
-        <div class="skeleton skeleton-title"></div>
-        <div class="skeleton skeleton-text"></div>
-        <div class="skeleton skeleton-text skeleton-text--short"></div>
-        <div class="skeleton-chip-row">
-          <span v-for="item in 4" :key="`chip-${item}`" class="skeleton skeleton-chip"></span>
+      <SkeletonHero large with-stats with-actions dark />
+      <div class="detail-skeleton-shell">
+        <SkeletonText :lines="3" line-height="1rem" />
+        <div class="detail-skeleton-stats">
+          <SkeletonStat v-for="item in 5" :key="`fact-${item}`" />
         </div>
-        <div class="skeleton-card-grid">
-          <span v-for="item in 5" :key="`fact-${item}`" class="skeleton skeleton-card"></span>
+        <SkeletonGrid :items="3" with-image :card-lines="3" />
+        <div class="detail-skeleton-split">
+          <SkeletonList :items="4" />
+          <SkeletonList :items="4" />
         </div>
-        <div class="skeleton-card-grid skeleton-card-grid--large">
-          <span v-for="item in 3" :key="`large-${item}`" class="skeleton skeleton-large-card"></span>
-        </div>
-        <div class="skeleton-gallery">
-          <span v-for="item in 4" :key="`gallery-${item}`" class="skeleton skeleton-gallery-item"></span>
+        <div class="detail-skeleton-gallery">
+          <SkeletonBase
+            v-for="item in 4"
+            :key="`gallery-${item}`"
+            class="detail-skeleton-gallery__item"
+            height="100%"
+            radius="0.5rem"
+            variant="image"
+          />
         </div>
       </div>
     </section>
@@ -147,25 +151,35 @@
           </div>
         </section>
 
-        <section class="content-section" aria-labelledby="gallery-title">
+        <section v-if="galleryImages.length > 0" class="content-section" aria-labelledby="gallery-title">
           <div class="section-heading reveal-on-scroll">
             <p class="section-kicker">Galeria</p>
             <h2 id="gallery-title">{{ department.name }} en imagenes</h2>
           </div>
 
           <div class="gallery-grid">
-            <figure
-              v-for="(image, index) in department.gallery"
+            <button
+              v-for="(image, index) in galleryImages"
               :key="image"
               class="gallery-item reveal-on-scroll"
+              type="button"
+              :aria-label="`Abrir imagen ${index + 1} de ${department.name}`"
+              @click="openLightbox(index)"
             >
               <img
                 :src="image"
-                :alt="`Imagen ${index + 1} de ${department.name}`"
+                :alt="`${department.name} - imagen ${index + 1}`"
                 loading="lazy"
               >
-            </figure>
+            </button>
           </div>
+
+          <VueEasyLightbox
+            :visible="lightboxVisible"
+            :imgs="galleryImages"
+            :index="lightboxIndex"
+            @hide="closeLightbox"
+          />
         </section>
       </main>
     </section>
@@ -181,10 +195,12 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import VueEasyLightbox from 'vue-easy-lightbox'
 import { useRoute } from 'vue-router'
 import { getTourismDepartmentBySlug, type TourismDepartment } from '@/data/tourism'
 import { useFavoriteToggle } from '@/composables/useFavoriteToggle'
 import { useRevealOnScroll } from '@/composables/useRevealOnScroll'
+import { SkeletonBase, SkeletonGrid, SkeletonHero, SkeletonList, SkeletonStat, SkeletonText } from '@/components/skeleton'
 import type { Favorite } from '@/stores/favorites'
 
 const route = useRoute()
@@ -200,6 +216,9 @@ const slug = computed(() => {
 })
 
 const department = computed(() => getTourismDepartmentBySlug(slug.value))
+const galleryImages = computed(() => department.value?.gallery ?? [])
+const lightboxVisible = ref(false)
+const lightboxIndex = ref(0)
 
 const heroStyle = computed(() => {
   if (!department.value) return {}
@@ -250,6 +269,17 @@ const toggleDepartmentFavorite = () => {
   }
 }
 
+const openLightbox = (index: number) => {
+  if (index < 0 || index >= galleryImages.value.length) return
+
+  lightboxIndex.value = index
+  lightboxVisible.value = true
+}
+
+const closeLightbox = () => {
+  lightboxVisible.value = false
+}
+
 const finishLoading = () => {
   isLoading.value = false
   void nextTick(() => refreshRevealElements())
@@ -266,7 +296,10 @@ const startLoading = () => {
 
 onMounted(startLoading)
 
-watch(slug, startLoading)
+watch(slug, () => {
+  closeLightbox()
+  startLoading()
+})
 
 onBeforeUnmount(() => {
   if (loadingTimer !== undefined) {
@@ -663,14 +696,34 @@ onBeforeUnmount(() => {
 
 .gallery-item {
   position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   margin: 0;
+  padding: 0;
+  border: 0;
   border-radius: 8px;
   background: #e2e8f0;
+  cursor: pointer;
 }
 
 .gallery-item:first-child {
   grid-row: span 2;
+}
+
+.gallery-item::after {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 23, 0.42);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 900;
+  content: 'Ver imagen';
+  opacity: 0;
+  transition: opacity var(--transition-slow, 0.3s);
 }
 
 .gallery-item img {
@@ -683,6 +736,21 @@ onBeforeUnmount(() => {
 }
 
 .gallery-item:hover img {
+  filter: saturate(1.1) contrast(1.04);
+  transform: scale(1.04);
+}
+
+.gallery-item:hover::after,
+.gallery-item:focus-visible::after {
+  opacity: 1;
+}
+
+.gallery-item:focus-visible {
+  outline: 3px solid #38bdf8;
+  outline-offset: 4px;
+}
+
+.gallery-item:focus-visible img {
   filter: saturate(1.1) contrast(1.04);
   transform: scale(1.04);
 }
@@ -739,111 +807,41 @@ onBeforeUnmount(() => {
 }
 
 .tourism-detail-skeleton {
+  display: grid;
+  gap: 2rem;
   min-height: 100%;
+  padding-bottom: 4rem;
   background: linear-gradient(180deg, #05070b 0%, #0b1018 42%, #f8fafc 42%, #f8fafc 100%);
 }
 
-.skeleton-shell {
-  width: min(1180px, calc(100% - 2rem));
-  margin: -120px auto 0;
-  padding-bottom: 4rem;
-}
-
-.skeleton {
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  background: rgba(148, 163, 184, 0.22);
-}
-
-.skeleton::after {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.36), transparent);
-  content: '';
-  transform: translateX(-100%);
-  animation: shimmer 1.4s infinite;
-}
-
-.skeleton-hero {
-  height: 520px;
-  border-radius: 0;
-  background: rgba(15, 23, 42, 0.9);
-}
-
-.skeleton-title {
-  width: min(560px, 78%);
-  height: 56px;
-  margin-bottom: 1rem;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.skeleton-text {
-  width: min(760px, 100%);
-  height: 18px;
-  margin-bottom: 0.7rem;
-  background: rgba(255, 255, 255, 0.26);
-}
-
-.skeleton-text--short {
-  width: min(460px, 70%);
-}
-
-.skeleton-chip-row,
-.skeleton-card-grid,
-.skeleton-gallery {
+.detail-skeleton-shell {
   display: grid;
+  gap: 2rem;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.detail-skeleton-stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
 }
 
-.skeleton-chip-row {
-  grid-template-columns: repeat(4, 110px);
-  margin: 1.5rem 0 2rem;
+.detail-skeleton-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
 }
 
-.skeleton-chip {
-  height: 34px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.24);
-}
-
-.skeleton-card-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-.skeleton-card {
-  height: 98px;
-  background: #e2e8f0;
-}
-
-.skeleton-card-grid--large {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 3rem;
-}
-
-.skeleton-large-card {
-  height: 300px;
-  background: #e2e8f0;
-}
-
-.skeleton-gallery {
+.detail-skeleton-gallery {
   grid-template-columns: 1.2fr 0.8fr 0.8fr;
+  display: grid;
   grid-auto-rows: 180px;
-  margin-top: 3rem;
+  gap: 1rem;
 }
 
-.skeleton-gallery-item {
-  background: #e2e8f0;
-}
-
-.skeleton-gallery-item:first-child {
+.detail-skeleton-gallery__item:first-child {
   grid-row: span 2;
-}
-
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
 }
 
 @media (max-width: 980px) {
@@ -872,13 +870,13 @@ onBeforeUnmount(() => {
 
   .attractions-grid,
   .experience-grid,
-  .skeleton-card-grid,
-  .skeleton-card-grid--large {
+  .detail-skeleton-stats,
+  .detail-skeleton-split {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .gallery-grid,
-  .skeleton-gallery {
+  .detail-skeleton-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -907,9 +905,9 @@ onBeforeUnmount(() => {
   .attractions-grid,
   .experience-grid,
   .gallery-grid,
-  .skeleton-card-grid,
-  .skeleton-card-grid--large,
-  .skeleton-gallery {
+  .detail-skeleton-stats,
+  .detail-skeleton-split,
+  .detail-skeleton-gallery {
     grid-template-columns: 1fr;
   }
 
@@ -925,21 +923,17 @@ onBeforeUnmount(() => {
   }
 
   .gallery-grid,
-  .skeleton-gallery {
+  .detail-skeleton-gallery {
     grid-auto-rows: 210px;
   }
 
   .gallery-item:first-child,
-  .skeleton-gallery-item:first-child {
+  .detail-skeleton-gallery__item:first-child {
     grid-row: span 1;
   }
 
-  .skeleton-shell {
+  .detail-skeleton-shell {
     width: min(100% - 1rem, 1180px);
-  }
-
-  .skeleton-chip-row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .not-found h1 {
@@ -953,6 +947,7 @@ onBeforeUnmount(() => {
   .attraction-card,
   .attraction-card img,
   .experience-card,
+  .gallery-item::after,
   .gallery-item img,
   .reveal-on-scroll {
     transition: none;
@@ -964,8 +959,5 @@ onBeforeUnmount(() => {
     transform: none;
   }
 
-  .skeleton::after {
-    animation: none;
-  }
 }
 </style>

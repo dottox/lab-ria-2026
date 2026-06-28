@@ -1,9 +1,20 @@
 <template>
-  <div ref="mapContainer" class="event-map" aria-label="Mapa interactivo con marcadores del evento y transporte"></div>
+  <div class="event-map-shell">
+    <div
+      ref="mapContainer"
+      class="event-map"
+      :class="{ 'event-map--loading': !isReady }"
+      aria-label="Mapa interactivo con marcadores del evento y transporte"
+    ></div>
+    <div v-if="!isReady" class="event-map-skeleton" aria-hidden="true">
+      <SkeletonBase height="100%" radius="0.75rem" variant="image" />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { SkeletonBase } from '@/components/skeleton'
 import L from 'leaflet'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
@@ -34,6 +45,7 @@ const props = defineProps<{
 const mapContainer = ref<HTMLElement | null>(null)
 const map = ref<L.Map | null>(null)
 const markersLayer = ref<L.LayerGroup | null>(null)
+const isReady = ref(false)
 
 const renderMarkers = async () => {
   if (!map.value || !markersLayer.value) {
@@ -121,7 +133,9 @@ onMounted(() => {
   }).addTo(map.value)
 
   markersLayer.value = L.layerGroup().addTo(map.value)
-  void renderMarkers()
+  void renderMarkers().then(() => {
+    isReady.value = true
+  })
 })
 
 watch(
@@ -159,5 +173,19 @@ onBeforeUnmount(() => {
   background:
     linear-gradient(135deg, rgba(0, 80, 179, 0.08), rgba(0, 128, 128, 0.08)),
     var(--color-surface);
+}
+
+.event-map-shell {
+  position: relative;
+}
+
+.event-map--loading {
+  opacity: 0;
+}
+
+.event-map-skeleton {
+  position: absolute;
+  inset: 0;
+  min-height: 320px;
 }
 </style>

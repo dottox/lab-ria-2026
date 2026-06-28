@@ -1,6 +1,16 @@
 <template>
   <div class="events-page">
     <div class="container--main">
+      <section v-if="isLoading" class="events-skeleton" aria-busy="true" aria-label="Cargando eventos">
+        <SkeletonHero with-stats />
+        <div class="events-skeleton__spotlight">
+          <SkeletonCard with-image with-actions :lines="4" />
+          <SkeletonCard with-image :lines="3" />
+        </div>
+        <SkeletonGrid :items="8" with-image :card-lines="3" />
+      </section>
+
+      <template v-else>
       <section class="events-hero">
         <p class="events-hero__eyebrow">Agenda cultural de Montevideo</p>
         <h1 class="events-hero__title">
@@ -140,7 +150,7 @@
               {{ transportError }}
             </div>
             <div v-else-if="transportLoading" class="transport-feedback">
-              Analizando paradas, lineas y proximos buses para este evento...
+              <SkeletonList :items="3" />
             </div>
             <div
               v-else-if="!transportCredentialsReady"
@@ -334,6 +344,7 @@
           </article>
         </div>
       </section>
+      </template>
     </div>
   </div>
 </template>
@@ -341,7 +352,9 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import EventMap from '@/components/EventMap.vue';
+import { SkeletonCard, SkeletonGrid, SkeletonHero, SkeletonList } from '@/components/skeleton';
 import { useFavoriteToggle } from '@/composables/useFavoriteToggle';
+import { useMinimumLoading } from '@/composables/useMinimumLoading';
 import { defaultEventId, events } from '@/data/events';
 import type { EventLocation, UruguayEvent } from '@/data/events';
 import type { Favorite } from '@/stores/favorites';
@@ -357,6 +370,7 @@ import EventComments from '@/components/EventComments.vue';
 const SESSION_SELECTED_EVENT_KEY = 'events:selected-event';
 
 const { toggleFavorite, isFavorited } = useFavoriteToggle();
+const { isLoading } = useMinimumLoading(460);
 
 const selectedEventId = ref(defaultEventId);
 const spotlightSection = ref<HTMLElement | null>(null);
@@ -565,6 +579,17 @@ onMounted(() => {
 <style scoped>
 .events-page {
   padding: 6.5rem 0 4rem;
+}
+
+.events-skeleton {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.events-skeleton__spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(340px, 0.95fr);
+  gap: 1.5rem;
 }
 
 .events-hero {
@@ -1138,6 +1163,10 @@ onMounted(() => {
 
 @media (max-width: 1120px) {
   .spotlight {
+    grid-template-columns: 1fr;
+  }
+
+  .events-skeleton__spotlight {
     grid-template-columns: 1fr;
   }
 

@@ -1,6 +1,16 @@
 <template>
   <div class="favorites-page">
     <div class="container--main">
+      <section v-if="isLoading" class="favorites-skeleton" aria-busy="true" aria-label="Cargando favoritos">
+        <SkeletonBase width="14rem" height="2.25rem" radius="0.5rem" />
+        <SkeletonBase width="18rem" height="1rem" radius="999px" />
+        <div class="favorites-skeleton__filters">
+          <SkeletonBase v-for="type in types" :key="`filter-${type}`" width="7rem" height="2.5rem" radius="0.5rem" />
+        </div>
+        <SkeletonGrid :items="3" :card-lines="2" with-actions />
+      </section>
+
+      <template v-else>
       <h1 class="page-title">Mis favoritos</h1>
       <p class="page-subtitle">Tus items guardados y preferencias</p>
 
@@ -74,6 +84,7 @@
           </RouterLink>
         </div>
       </div>
+      </template>
     </div>
   </div>
 </template>
@@ -83,12 +94,15 @@ import { computed, ref } from 'vue'
 import { useFavoritesStore } from '@/stores/favorites'
 import { tourismDepartments } from '@/data/tourism'
 import Card from '@/components/Card.vue'
+import { SkeletonBase, SkeletonGrid } from '@/components/skeleton'
+import { useMinimumLoading } from '@/composables/useMinimumLoading'
 import type { Favorite, FavoriteType } from '@/stores/favorites'
 
 const favoritesStore = useFavoritesStore()
 type FavoriteFilter = 'all' | FavoriteType
 
 const activeFilter = ref<FavoriteFilter>('all')
+const { isLoading } = useMinimumLoading(380)
 
 const favorites = computed(() => favoritesStore.favorites)
 const types: FavoriteFilter[] = ['all', 'transport', 'tourism', 'event']
@@ -194,6 +208,18 @@ const formatDate = (timestamp: number) => {
 <style scoped>
 .favorites-page {
   padding: 6.5rem 0 4rem;
+}
+
+.favorites-skeleton {
+  display: grid;
+  gap: 1rem;
+}
+
+.favorites-skeleton__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
 }
 
 .page-title {

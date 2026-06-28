@@ -25,10 +25,13 @@
       </button>
     </div>
 
-    <LoadingSpinner
-      v-if="loading && !hasData"
-      message="Cargando indicadores de seguridad..."
-    />
+    <div v-if="loading && !hasData" class="homicides-stats__skeleton">
+      <SkeletonGrid :items="4" :card-lines="2" />
+      <div class="homicides-stats__skeleton-charts">
+        <SkeletonList :items="5" />
+        <SkeletonChart />
+      </div>
+    </div>
 
     <ErrorAlert
       v-if="error"
@@ -118,7 +121,7 @@
 import { computed } from "vue";
 import Card from "@/components/Card.vue";
 import ErrorAlert from "@/components/ErrorAlert.vue";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import { SkeletonChart, SkeletonGrid, SkeletonList } from "@/components/skeleton";
 import { useHomicides } from "@/composables/useHomicides";
 
 const {
@@ -281,6 +284,17 @@ const getYearWidth = (total: number) => {
 
 .homicides-stats__content {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.homicides-stats__skeleton {
+  display: grid;
+  gap: 1rem;
+}
+
+.homicides-stats__skeleton-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
 .summary-card__value {
