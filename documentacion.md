@@ -1,184 +1,25 @@
-# Documentación de requisitos del proyecto
+# Documentacion del proyecto
 
-Este documento resume el estado de cumplimiento de los requisitos solicitados para la aplicación Vue/Vite sobre Uruguay. La evidencia se indica con archivos y líneas aproximadas del código fuente.
+## Objetivo de la aplicacion
 
-## Resumen general
+La aplicacion es una SPA desarrollada con Vue.js sobre informacion publica de Uruguay. Su objetivo es centralizar en una interfaz navegable datos de turismo, eventos, clima, estadisticas y favoritos, aplicando arquitectura frontend moderna, componentes reutilizables, estado compartido, persistencia en navegador y consumo de APIs externas.
 
-| Requisito                              | Estado  |
-| -------------------------------------- | ------- |
-| Múltiples vistas utilizando Vue Router | Cumple  |
-| Componentes reutilizables              | Cumple  |
-| Layout responsive                      | Cumple  |
-| Consumo de al menos una API externa    | Cumple  |
-| Render dinámico de información         | Cumple  |
-| Formularios interactivos               | Cumple  |
-| Búsqueda o filtrado dinámico           | Parcial |
-| Manejo de estados compartidos          | Cumple  |
-| Persistencia frontend                  | Cumple  |
-| Arquitectura organizada del proyecto   | Cumple  |
+La tematica elegida corresponde a **Informacion publica**.
 
-## 1. Múltiples vistas utilizando Vue Router
+## Tecnologias utilizadas
 
-**Estado:** Cumple.
+- Vue 3 con Composition API.
+- Vite como entorno de desarrollo y build.
+- TypeScript para tipado del codigo.
+- Vue Router para navegacion entre vistas.
+- Pinia para estado compartido.
+- CSS moderno con variables, flexbox, grid, media queries y clases con metodologia BEM.
+- localStorage y sessionStorage para persistencia frontend.
+- Leaflet para mapa interactivo en eventos.
+- APIs externas: Open-Meteo para clima y Montevideo API para transporte publico cuando hay credenciales configuradas.
+- Datos locales estructurados para turismo, eventos y estadisticas simuladas.
 
-La aplicación utiliza Vue Router con varias rutas principales y carga diferida de páginas:
-
-- `src/router/index.ts:3-37`: define las rutas `/`, `/tourism`, `/climate`, `/events`, `/statistics`, `/favorites` y una redirección fallback.
-- `src/router/index.ts:40-43`: crea el router con `createWebHistory()`.
-- `src/main.ts:10-11`: registra Pinia y Vue Router en la aplicación.
-- `src/App.vue`: renderiza la vista activa mediante `<router-view>`.
-
-**Vistas detectadas:**
-
-- `src/pages/Home.vue`
-- `src/pages/Tourism.vue`
-- `src/pages/Climate.vue`
-- `src/pages/Events.vue`
-- `src/pages/Statistics.vue`
-- `src/pages/Favorites.vue`
-
-## 2. Componentes reutilizables
-
-**Estado:** Cumple.
-
-El proyecto separa piezas de interfaz reutilizables dentro de `src/components`.
-
-**Evidencia:**
-
-- `src/components/Card.vue:1-21`: componente genérico de tarjeta con props `title` y `description`, más slots para header, body y footer.
-- `src/components/Header.vue:1-41`: cabecera reutilizable con navegación, menú responsive, favoritos y cambio de tema.
-- `src/components/EventMap.vue`: componente de mapa reutilizable para eventos y paradas.
-- `src/components/Footer.vue`, `Button.vue`, `LoadingSpinner.vue`, `ErrorAlert.vue`: componentes auxiliares.
-
-**Uso de componentes:**
-
-- `src/pages/Climate.vue:42-61`: usa `Card` para mostrar el clima por región.
-- `src/pages/Climate.vue:72-94`: usa `Card` para estaciones.
-- `src/pages/Favorites.vue:37-65`: usa `Card` para cada favorito.
-- `src/pages/Events.vue:85-91`: usa `EventMap`.
-
-## 3. Layout responsive
-
-**Estado:** Cumple.
-
-La aplicación incluye reglas responsive mediante grids fluidos, flexbox y media queries.
-
-**Evidencia:**
-
-- `src/components/Header.vue:223-304`: el menú cambia a navegación desplegable en pantallas chicas.
-- `src/pages/Tourism.vue:362-367`: grilla bento de 4 columnas para escritorio.
-- `src/pages/Tourism.vue:539-548`: adapta la grilla a tablet.
-- `src/pages/Tourism.vue:551-601`: adapta la grilla a una columna en mobile.
-- `src/pages/Climate.vue:233-236`: facts en grid con `auto-fit`.
-- `src/pages/Climate.vue:273-277`: estaciones en grid responsive.
-- `src/pages/Climate.vue:314-317`: tarjetas de clima en grid responsive.
-- `src/pages/Climate.vue:337-368`: layout mobile para clima.
-- `src/pages/Favorites.vue`: grilla de favoritos y filtros adaptables.
-
-## 4. Consumo de al menos una API externa
-
-**Estado:** Cumple.
-
-La aplicación consume Open-Meteo para mostrar clima en tiempo real.
-
-**Evidencia principal:**
-
-- `src/services/weatherService.ts:32-71`: función `getWeather()` construye parámetros y hace `fetch` a `https://api.open-meteo.com/v1/forecast`.
-- `src/composables/useWeather.ts:49-63`: llama a `getWeather()` para varias regiones.
-- `src/composables/useWeather.ts:84`: dispara la carga al montar el componente.
-- `src/pages/Climate.vue:42-61`: renderiza loading, error y datos recibidos de la API.
-
-**API adicional:**
-
-- `vite.config.ts:5-7`: configuración de URLs para API de transporte de Montevideo.
-- `src/services/montevideoTransport.ts`: servicio para transporte público, paradas y próximos buses.
-- `src/pages/Events.vue:337-369`: busca recomendaciones de transporte cuando hay ubicación del usuario y credenciales configuradas.
-
-## 5. Render dinámico de información
-
-**Estado:** Cumple.
-
-La información se renderiza de forma dinámica con `v-for`, `v-if`, `computed`, estados reactivos y datos cargados desde servicios o estructuras locales.
-
-**Evidencia:**
-
-- `src/pages/Climate.vue:31-35`: render dinámico de facts con `v-for`.
-- `src/pages/Climate.vue:42-61`: render condicional de carga, error y clima por región.
-- `src/pages/Climate.vue:67-95`: render dinámico de estaciones.
-- `src/pages/Tourism.vue:5-52`: render de destinos turísticos con `v-for`.
-- `src/pages/Tourism.vue:11-13`: imagen de fondo dinámica por destino.
-- `src/pages/Tourism.vue:40-42`: render de destacados por destino.
-- `src/pages/Events.vue:18-70`: evento destacado depende de `selectedEvent`.
-- `src/pages/Events.vue:194-235`: grilla dinámica de eventos.
-- `src/pages/Favorites.vue:7-68`: estado vacío o lista de favoritos según datos guardados.
-
-## 6. Formularios interactivos
-
-**Estado:** Cumple.
-
-Existe un formulario para agregar comentarios sobre un evento en específico.
-
-- `src/components/EventComments` : formulario con input de autor (opcional) y textarea de texto.
-- `src/components/EventComments` : botón de envío deshabilitado si el campo de texto está vacío.
-- `src/composables/useComments.ts` : lógica de alta y persistencia de comentarios en localStorage por evento, con clave comments-{eventId}.
-- `src/pages/Events.vue` : renderiza EventComments pasando el eventId del evento seleccionado, por lo que los comentarios cambian al seleccionar otro evento.
-
-## 7. Búsqueda o filtrado dinámico
-
-**Estado:** Cumple.
-
-La aplicación implementa búsqueda y filtrado dinámico en múltiples páginas.
-
-**Evidencia:**
-
-- `src/pages/Events.vue`: input de búsqueda que filtra los eventos en tiempo real por nombre, descripción, venue, barrio, categoría y tags.
-- `src/pages/Favorites.vue:15-25`: botones de filtro por tipo generados con `v-for`.
-- `src/pages/Favorites.vue:82-85`: estado reactivo del filtro activo y lista de tipos.
-- `src/pages/Favorites.vue:87-92`: `filteredFavorites` filtra según el tipo seleccionado.
-- `src/pages/Favorites.vue:94-99`: cálculo dinámico de cantidades por tipo.
-- `src/stores/transport.ts`: filtros de origen y destino con persistencia en `sessionStorage`.
-
-## 8. Manejo de estados compartidos
-
-**Estado:** Cumple.
-
-La aplicación usa Pinia para compartir estado entre componentes y páginas.
-
-**Evidencia:**
-
-- `src/main.ts:1-11`: importa `createPinia()` y lo registra con `app.use(createPinia())`.
-- `src/stores/favorites.ts:75-131`: store global de favoritos.
-- `src/stores/theme.ts`: store global de tema claro/oscuro.
-- `src/stores/transport.ts`: store global de horarios/filtros de transporte.
-- `src/components/Header.vue:45-53`: lee favoritos desde el store para mostrar el contador en navegación.
-- `src/pages/Favorites.vue:79-84`: consume el store de favoritos.
-- `src/composables/useFavoriteToggle.ts`: encapsula la lógica de agregar/quitar favoritos usando el store.
-
-## 9. Persistencia frontend
-
-**Estado:** Cumple.
-
-El proyecto persiste datos en `localStorage` y `sessionStorage`.
-
-**Evidencia:**
-
-- `src/stores/favorites.ts:78-93`: carga favoritos desde `localStorage`.
-- `src/stores/favorites.ts:96-98`: guarda favoritos en `localStorage`.
-- `src/stores/favorites.ts:117-120`: limpia favoritos de `localStorage`.
-- `src/stores/theme.ts`: guarda y recupera el tema desde `localStorage`.
-- `src/pages/Events.vue:300-306`: guarda el evento seleccionado en `sessionStorage`.
-- `src/pages/Events.vue:421-425`: recupera el evento seleccionado desde `sessionStorage`.
-- `src/stores/transport.ts`: guarda filtros de origen y destino en `sessionStorage`.
-
-Además, `src/stores/favorites.ts:47-73` normaliza favoritos para que datos antiguos o incompletos no rompan la página.
-
-## 10. Arquitectura organizada del proyecto
-
-**Estado:** Cumple.
-
-El proyecto está organizado por responsabilidades y separa páginas, componentes, stores, servicios, composables, datos y utilidades.
-
-**Estructura relevante:**
+## Estructura general del proyecto
 
 ```text
 src/
@@ -188,9 +29,10 @@ src/
     index.ts
   pages/
     Home.vue
-    Tourism.vue
-    Climate.vue
     Events.vue
+    Tourism.vue
+    TourismDetail.vue
+    Climate.vue
     Statistics.vue
     Favorites.vue
   components/
@@ -199,8 +41,18 @@ src/
     Card.vue
     Button.vue
     EventMap.vue
-    LoadingSpinner.vue
-    ErrorAlert.vue
+    EventComments.vue
+    CurrencyRates.vue
+    HomicidesStats.vue
+    skeleton/
+  composables/
+    useWeather.ts
+    useCurrency.ts
+    useHomicides.ts
+    useComments.ts
+    useFavoriteToggle.ts
+    useMinimumLoading.ts
+    useRevealOnScroll.ts
   stores/
     favorites.ts
     theme.ts
@@ -208,147 +60,116 @@ src/
   services/
     weatherService.ts
     montevideoTransport.ts
-  composables/
-    useWeather.ts
-    useFavoriteToggle.ts
+    currencyService.ts
+    homicidesService.ts
+    mockApi.ts
   data/
     events.ts
-  utils/
-    seasons.ts
+    tourism.ts
+    api/
   styles/
     globals.css
+  utils/
+    seasons.ts
 ```
 
-**Evidencia:**
+La organizacion separa vistas, componentes visuales, estado global, servicios de datos, composables reutilizables y datos locales.
 
-- `src/router/index.ts`: configuración de rutas.
-- `src/pages/`: vistas principales.
-- `src/components/`: componentes reutilizables.
-- `src/stores/`: estado compartido.
-- `src/services/`: consumo y normalización de APIs.
-- `src/composables/`: lógica reutilizable de composición.
-- `src/data/`: datos locales estructurados.
-- `src/utils/`: utilidades.
+## Decisiones arquitectonicas relevantes
 
+- **SPA con rutas diferidas:** `src/router/index.ts` define las rutas principales y carga las paginas con imports dinamicos.
+- **Estado compartido con Pinia:** favoritos, tema visual y filtros/datos de transporte viven en stores reutilizables.
+- **Persistencia integrada a la experiencia:** favoritos, tema, cache de cotizaciones, cache de homicidios y comentarios se guardan en localStorage; filtros temporales de transporte y evento seleccionado se guardan en sessionStorage.
+- **Servicios separados de la interfaz:** las llamadas a APIs se concentran en `src/services/`, evitando mezclar fetch y renderizado.
+- **Composables para logica reutilizable:** carga de clima, cache de cotizaciones, comentarios, favoritos, loading minimo y animaciones se desacoplan de los componentes.
+- **CSS mantenible con BEM:** bloques como `events-hero`, `spotlight`, `comment-card`, `currency-rates`, `skeleton-card` y `nav__link--favorites` organizan estilos por responsabilidad.
+- **Datos locales estructurados:** eventos y turismo usan archivos en `src/data/`, lo que simplifica render dinamico sin depender de una API para todo.
+- **Fallback controlado:** las cotizaciones y homicidios usan servicios simulados con cache para demostrar consumo asincronico y persistencia sin depender de disponibilidad externa.
 
-## 11. Servicio simulado de cotizaciones/API
+## Organizacion de componentes
 
-**Estado:** Cumple.
+- `Header.vue` y `Footer.vue`: layout comun de la aplicacion.
+- `Card.vue` y `Button.vue`: componentes visuales base reutilizados en varias vistas.
+- `EventMap.vue`: mapa de evento, ubicacion del usuario y paradas recomendadas.
+- `EventComments.vue`: formulario de comentarios por evento.
+- `CurrencyRates.vue`: render de cotizaciones con loading, error, refresco y cache.
+- `HomicidesStats.vue`: visualizacion dinamica de datos estadisticos.
+- `components/skeleton/`: componentes de carga reutilizables para cards, grids, charts, listas y heroes.
 
-Se agregó una simulación profesional de consumo de API para cotizaciones de monedas, sin depender de una API externa real. La implementación separa datos mock, capa de servicio, composable reutilizable y componente visual.
+Las vistas de `src/pages/` componen estos bloques segun cada seccion de la aplicacion.
 
-**Archivos agregados:**
+## Organizacion de stores
 
-- `src/data/api/currency.mock.ts`: contiene la respuesta mock del servicio de cotizaciones.
-- `src/services/mockApi.ts`: expone `simulateApiCall<T>()` para simular delay, error y respuesta asincrónica.
-- `src/services/currencyService.ts`: centraliza el acceso a las cotizaciones mediante `getCurrencyRates()`.
-- `src/composables/useCurrency.ts`: maneja `loading`, `error`, `data`, `fromCache`, `cachedAt`, cache en `localStorage` y fallback ante error.
-- `src/components/CurrencyRates.vue`: muestra cotizaciones, loading, error, botón de actualización, fuente, fecha de actualización y estado de cache.
+- `favorites.ts`: guarda, normaliza, agrega, elimina y consulta favoritos. Persiste en `localStorage`.
+- `theme.ts`: administra tema claro/oscuro, detecta preferencia del sistema y persiste en `localStorage`.
+- `transport.ts`: administra horarios, loading, errores y filtros temporales de origen/destino. Persiste filtros en `sessionStorage`.
 
-**Archivo modificado:**
+Esta separacion evita pasar estado global manualmente entre componentes.
 
-- `src/pages/Statistics.vue`: integra el componente `<CurrencyRates />` dentro de la página de estadísticas.
+## Organizacion de composables
 
-**Funcionamiento:**
+- `useWeather.ts`: carga clima de varias regiones y expone estado de loading/error por region.
+- `useCurrency.ts`: carga cotizaciones simuladas, guarda cache y usa fallback desde `localStorage`.
+- `useHomicides.ts`: carga estadisticas simuladas y cachea la ultima respuesta valida.
+- `useComments.ts`: administra comentarios por evento y los persiste en `localStorage`.
+- `useFavoriteToggle.ts`: encapsula la logica de agregar/quitar favoritos usando el store.
+- `useMinimumLoading.ts`: evita parpadeos visuales en pantallas con skeleton.
+- `useRevealOnScroll.ts`: encapsula animaciones de entrada al hacer scroll.
 
-- Los datos de cotizaciones se encuentran separados en `src/data/api/currency.mock.ts`.
-- La llamada se simula con `Promise` y `setTimeout` mediante `simulateApiCall<T>()`.
-- El servicio `currencyService.ts` queda como único punto reemplazable por una API real en el futuro.
-- El composable `useCurrency()` guarda la última respuesta válida en `localStorage` con la clave `ria:currency:mock`.
-- Si la simulación falla y existe cache, se muestran los datos cacheados junto con un mensaje de error.
-- Si la simulación falla y no existe cache, se informa el error al usuario.
-- La sección puede funcionar sin realizar llamadas reales de red, porque los datos se incluyen localmente en el proyecto.
+## Funcionalidades principales
 
-**Evidencia visual y funcional:**
+- Navegacion por multiples vistas: inicio, eventos, turismo, detalle turistico, clima, estadisticas y favoritos.
+- Render dinamico con `v-for`, `v-if`, propiedades computadas y datos reactivos.
+- Busqueda y filtrado de eventos y favoritos.
+- Formulario interactivo de comentarios en eventos.
+- Favoritos persistentes para eventos y destinos turisticos.
+- Tema claro/oscuro persistente.
+- Clima actual por regiones mediante Open-Meteo.
+- Mapa y recomendacion de transporte para eventos.
+- Layout responsive en desktop, tablet y mobile.
 
-- `src/components/CurrencyRates.vue`: renderiza las monedas USD, EUR, BRL y ARS con compra, venta y variación.
-- `src/composables/useCurrency.ts`: implementa la carga inicial, actualización manual, cache y fallback.
-- `src/services/currencyService.ts`: simula la consulta al servicio de cotizaciones.
-- `src/pages/Statistics.vue`: muestra la sección de cotizaciones dentro del dashboard de estadísticas.
+## Instrucciones de ejecucion
 
-**Pruebas realizadas:**
+Requisitos:
 
-- Flujo normal: se carga la sección de cotizaciones, aparece el estado de carga inicial y luego se muestran los datos.
-- Actualización manual: el botón `Actualizar` vuelve a ejecutar la simulación.
-- Flujo de error con cache: al forzar error en `currencyService.ts`, la interfaz muestra el mensaje de error y conserva los datos previamente guardados.
-- Flujo de error sin cache: al eliminar `localStorage.removeItem('ria:currency:mock')` y forzar error, se muestra el estado de error correspondiente.
-- Build: `npm run build` finaliza correctamente. Solo se mantiene la advertencia ya existente de configuración de módulos en `postcss.config.js`.
+- Node.js 22 o compatible.
+- npm.
 
+Instalacion:
 
-## 12. Servicio simulado de homicidios/API
+```bash
+npm install
+```
 
-**Estado:** Cumple.
+Ejecucion en desarrollo:
 
-Se agregó una simulación de consumo de API para estadísticas de homicidios en Uruguay, sin depender de una API externa real. La implementación mantiene la misma estrategia utilizada para cotizaciones: datos mock separados, servicio simulado, composable reutilizable, manejo de cache y componente visual integrado en la página de estadísticas.
+```bash
+npm run dev
+```
 
-La sección deja explícito que los valores son simulados y no oficiales, evitando presentar datos de prueba como cifras reales.
+La aplicacion queda disponible en:
 
-**Archivos agregados:**
+```text
+http://localhost:3000
+```
 
-- `src/data/api/homicides.mock.ts`: contiene la respuesta mock del servicio de homicidios.
-- `src/services/homicidesService.ts`: centraliza el acceso a las estadísticas mediante `getHomicidesStats()`.
-- `src/composables/useHomicides.ts`: maneja `loading`, `error`, `data`, `fromCache`, `cachedAt`, cache en `localStorage` y fallback ante error.
-- `src/components/HomicidesStats.vue`: muestra el resumen visual de homicidios, evolución anual, ranking por departamento, fuente, nota metodológica y estado de cache.
-
-**Archivo modificado:**
-
-- `src/pages/Statistics.vue`: integra el componente `<HomicidesStats />` dentro de la página de estadísticas junto con el bloque de cotizaciones.
-
-**Funcionamiento:**
-
-- Los datos simulados se encuentran separados en `src/data/api/homicides.mock.ts`.
-- El servicio `homicidesService.ts` reutiliza `simulateApiCall<T>()` desde `src/services/mockApi.ts`.
-- La llamada simula latencia, respuesta asincrónica y posibles errores controlados.
-- El composable `useHomicides()` guarda la última respuesta válida en `localStorage` con la clave `ria:homicides:mock`.
-- Si la simulación falla y existe cache, se muestran los datos cacheados junto con un mensaje de error.
-- Si la simulación falla y no existe cache, se informa el error al usuario.
-- La sección funciona sin realizar llamadas reales de red, porque los datos se incluyen localmente en el proyecto.
-
-**Datos mostrados:**
-
-- Último año disponible.
-- Total simulado de homicidios del último año.
-- Tasa simulada cada 100.000 habitantes.
-- Variación anual.
-- Evolución anual mediante barras simples.
-- Resumen por departamento.
-- Fuente conceptual.
-- Nota metodológica.
-- Indicador de datos simulados/no oficiales.
-- Estado de cache.
-
-**Evidencia visual y funcional:**
-
-- `src/components/HomicidesStats.vue`: renderiza el bloque de estadísticas de homicidios dentro del dashboard.
-- `src/composables/useHomicides.ts`: implementa carga inicial, actualización manual, cache y fallback.
-- `src/services/homicidesService.ts`: simula la consulta al servicio de homicidios.
-- `src/data/api/homicides.mock.ts`: mantiene los datos de prueba fuera de la página.
-- `src/pages/Statistics.vue`: muestra la sección de homicidios junto a otros indicadores.
-
-**Pruebas realizadas:**
-
-- Flujo normal: se carga la sección de homicidios, aparece el estado de carga inicial y luego se muestran los datos simulados.
-- Actualización manual: el botón `Actualizar` vuelve a ejecutar la simulación.
-- Flujo de error con cache: al forzar error en `homicidesService.ts`, la interfaz muestra el mensaje de error y conserva los datos previamente guardados.
-- Flujo de error sin cache: al eliminar `localStorage.removeItem('ria:homicides:mock')` y forzar error, se muestra el estado de error correspondiente.
-- Build: `npm run build` finaliza correctamente. Solo se mantiene la advertencia ya existente de configuración de módulos en `postcss.config.js`.
-
-
-## Verificación técnica
-
-Se ejecutó:
+Build de produccion:
 
 ```bash
 npm run build
 ```
 
-**Resultado:** build completada correctamente. Solo aparece una advertencia de Node relacionada con `postcss.config.js` y el campo `"type": "module"` en `package.json`; no bloquea la compilación ni está relacionada con los requisitos funcionales.
+Previsualizacion del build:
 
-## Conclusión
+```bash
+npm run preview
+```
 
-El proyecto cumple la mayoría de los requisitos solicitados. El único punto marcado como parcial es **Formularios interactivos**, porque existen interacciones y controles, pero no un formulario HTML completo con inputs y submit. Para dejar ese requisito completamente cubierto, se recomienda agregar un formulario simple, por ejemplo:
+Variables opcionales para transporte publico:
 
-- búsqueda textual de eventos o destinos,
-- formulario de contacto,
-- formulario para planificar una visita,
-- formulario de preferencias turísticas.
+```bash
+MONTEVIDEO_TRANSPORT_CLIENT_ID=your-client-id-here
+MONTEVIDEO_TRANSPORT_CLIENT_SECRET=your-client-secret-here
+```
+
+Si estas credenciales no estan configuradas, el resto de la aplicacion funciona y la seccion de recomendacion de transporte informa que el buscador no esta disponible.

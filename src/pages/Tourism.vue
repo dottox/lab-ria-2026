@@ -37,7 +37,7 @@
         <div
           class="interactive-card"
           :style="{
-            backgroundImage: `linear-gradient(140deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.72)), url(${destination.image})`,
+            backgroundImage: `linear-gradient(140deg, color-mix(in srgb, var(--color-image-overlay) 20%, transparent), color-mix(in srgb, var(--color-image-overlay) 72%, transparent)), url(${destination.image})`,
           }"
         >
           <RouterLink
@@ -136,8 +136,6 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 .tourism-page {
   min-height: 100%;
   padding: clamp(1rem, 3vw, 2rem);
-  background: linear-gradient(135deg, #05070b 0%, #0d1117 48%, #10181f 100%);
-  color: #ffffff;
 }
 
 .tourism-hero {
@@ -152,7 +150,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 }
 
 .tourism-skeleton-grid {
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 24px 70px color-mix(in srgb, var(--color-foreground) 12%, transparent);
 }
 
 .tourism-card-skeleton {
@@ -161,7 +159,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 
 .tourism-kicker {
   margin: 0 0 0.5rem;
-  color: #7dd3fc;
+  color: var(--color-tertiary);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -178,7 +176,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 .tourism-hero p:last-child {
   max-width: 680px;
   margin: 1rem 0 0;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--color-text-secondary);
   font-size: 1.15rem;
 }
 
@@ -189,8 +187,8 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: 250px;
   grid-auto-flow: dense;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 24px 70px color-mix(in srgb, var(--color-foreground) 18%, transparent);
 }
 
 .destination-card-wrapper {
@@ -204,7 +202,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid color-mix(in srgb, var(--color-on-image) 12%, transparent);
   background-position: center;
   background-size: cover;
   color: inherit;
@@ -236,7 +234,11 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-on-image) 8%, transparent),
+    color-mix(in srgb, var(--color-image-overlay) 50%, transparent)
+  );
   content: '';
   opacity: 0.62;
   transition: opacity var(--transition-slow, 0.3s);
@@ -245,11 +247,11 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 .interactive-card:hover,
 .interactive-card:focus-within {
   z-index: 2;
-  border-color: rgba(125, 211, 252, 0.82);
+  border-color: color-mix(in srgb, var(--color-primary) 82%, transparent);
   box-shadow:
-    0 26px 55px rgba(0, 0, 0, 0.42),
-    0 0 0 1px rgba(255, 255, 255, 0.16) inset,
-    0 0 34px rgba(45, 212, 191, 0.18);
+    0 26px 55px color-mix(in srgb, var(--color-image-overlay) 42%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--color-on-image) 16%, transparent) inset,
+    0 0 34px color-mix(in srgb, var(--color-tertiary) 18%, transparent);
   filter: saturate(1.08) brightness(1.05);
   transform: translateY(-4px) scale(1.012);
   outline: none;
@@ -263,9 +265,9 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 .card-abbreviation {
   font-size: 3.75rem;
   font-weight: 900;
-  color: #ffffff;
+  color: var(--color-on-image);
   letter-spacing: 0;
-  text-shadow: 0 8px 26px rgba(0, 0, 0, 0.72);
+  text-shadow: 0 8px 26px color-mix(in srgb, var(--color-image-overlay) 72%, transparent);
   transition:
     opacity var(--transition-slow, 0.3s),
     transform var(--transition-slow, 0.3s);
@@ -288,8 +290,12 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   gap: 1rem;
   overflow-y: auto;
   padding: 1.2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
-  background: linear-gradient(180deg, rgba(4, 8, 14, 0.42), rgba(4, 8, 14, 0.82));
+  border-top: 1px solid color-mix(in srgb, var(--color-on-image) 24%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-image-overlay) 42%, transparent),
+    color-mix(in srgb, var(--color-image-overlay) 82%, transparent)
+  );
   backdrop-filter: blur(10px);
   transform: translateY(101%);
   transition: transform var(--transition-slow, 0.3s);
@@ -309,7 +315,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 
 .destination-name {
   margin: 0;
-  color: white;
+  color: var(--color-on-image);
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 1.45rem;
   font-weight: 800;
@@ -317,7 +323,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 
 .destination-region {
   margin: 0.25rem 0 0;
-  color: rgba(255, 255, 255, 0.78);
+  color: color-mix(in srgb, var(--color-on-image) 78%, transparent);
   font-size: 0.85rem;
   font-weight: 700;
 }
@@ -326,7 +332,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   display: -webkit-box;
   margin: 0;
   overflow: hidden;
-  color: rgba(255, 255, 255, 0.86);
+  color: color-mix(in srgb, var(--color-on-image) 86%, transparent);
   font-size: 0.95rem;
   line-height: 1.5;
   text-align: right;
@@ -341,7 +347,7 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   align-items: center;
   justify-content: space-between;
   padding-top: 0.85rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 1px solid color-mix(in srgb, var(--color-on-image) 16%, transparent);
 }
 
 .highlights {
@@ -352,10 +358,10 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 
 .badge {
   padding: 0.25rem 0.6rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid color-mix(in srgb, var(--color-on-image) 20%, transparent);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
-  color: #ffffff;
+  background: color-mix(in srgb, var(--color-on-image) 16%, transparent);
+  color: var(--color-on-image);
   font-size: 0.74rem;
   font-weight: 800;
 }
@@ -364,12 +370,12 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
-  color: rgba(255, 255, 255, 0.76);
+  color: color-mix(in srgb, var(--color-on-image) 76%, transparent);
   font-size: 0.84rem;
 }
 
 .meta-metrics strong {
-  color: #ffffff;
+  color: var(--color-on-image);
 }
 
 .fav-btn {
@@ -381,10 +387,10 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
   width: 42px;
   height: 42px;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  border: 1px solid color-mix(in srgb, var(--color-on-image) 34%, transparent);
   border-radius: 50%;
-  background: rgba(4, 8, 14, 0.32);
-  color: #ffffff;
+  background: color-mix(in srgb, var(--color-image-overlay) 32%, transparent);
+  color: var(--color-on-image);
   cursor: pointer;
   backdrop-filter: blur(8px);
   transition:
@@ -395,16 +401,16 @@ const toggleDestinationFavorite = (destination: TourismDepartment) => {
 
 .fav-btn:hover,
 .fav-btn:focus-visible {
-  border-color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.22);
+  border-color: color-mix(in srgb, var(--color-on-image) 80%, transparent);
+  background: color-mix(in srgb, var(--color-on-image) 22%, transparent);
   outline: none;
   transform: scale(1.08);
 }
 
 .fav-btn--active {
-  border-color: rgba(251, 191, 36, 0.9);
-  background: rgba(251, 191, 36, 0.18);
-  color: #fbbf24;
+  border-color: color-mix(in srgb, var(--color-secondary) 90%, transparent);
+  background: color-mix(in srgb, var(--color-secondary) 18%, transparent);
+  color: var(--color-secondary);
 }
 
 .fav-icon::before {
