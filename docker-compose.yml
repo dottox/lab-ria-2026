@@ -1,0 +1,25 @@
+services:
+  lab-ria-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lab_ria_web
+    restart: unless-stopped
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 8080
+
+      MONTEVIDEO_TRANSPORT_CLIENT_ID: ${MONTEVIDEO_TRANSPORT_CLIENT_ID:-}
+      MONTEVIDEO_TRANSPORT_CLIENT_SECRET: ${MONTEVIDEO_TRANSPORT_CLIENT_SECRET:-}
+
+    networks:
+      - public
+
+networks:
+  public:
+    external: true

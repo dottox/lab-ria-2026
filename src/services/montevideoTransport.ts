@@ -140,7 +140,10 @@ export const formatStopName = (stop: BusStop) => {
 }
 
 export const hasTransportCredentials = () => {
-  return Boolean(import.meta.env.VITE_MONTEVIDEO_TRANSPORT_CONFIGURED)
+  return Boolean(
+    window.__RIA_CONFIG__?.montevideoTransportConfigured ??
+      import.meta.env.VITE_MONTEVIDEO_TRANSPORT_CONFIGURED,
+  )
 }
 
 export const calculateDistanceMeters = (from: EventLocation, to: EventLocation) => {
